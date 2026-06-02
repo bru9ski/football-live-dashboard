@@ -1927,211 +1927,171 @@
 </div>
 
 <!-- ═══ TAB: LIVE MATCH ════════════════════════════════════════════════ -->
+<!-- ═══ TAB: LIVE MATCH + AI ════════════════════════════════════════════ -->
 <div id="tab-live" class="page-view">
-        <!-- Section label -->
-        <div class="section-label">Live Match + AI</div>
 
-        <section class="live-intelligence-grid" aria-label="Live Match and AI Insights">
-            <article class="live-card">
+    <!-- ── Título ── -->
+    <div class="section-label">Live Match + AI</div>
+
+    <!-- ── Linha 1: Scoreboard + Feed de eventos ── -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:var(--space-4);margin-bottom:var(--space-4);">
+
+        <!-- Scoreboard principal -->
+        <section class="card" style="padding:var(--space-4);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3);">
                 <div class="live-pill"><span class="live-dot-pulse"></span>Live monitor</div>
-                <div class="live-scoreboard">
-                    <div class="team-block">
-                        <span class="team-meta">Mandante</span>
-                        <span id="live-home-name" class="team-name">Flamengo</span>
-                        <span id="live-home-momentum" class="team-meta">Pressão alta</span>
-                    </div>
-                    <div class="score-core">
-                        <div id="live-score" class="score-value">1 x 0</div>
-                        <div id="live-minute" class="minute-tag">67'</div>
-                        <div id="live-phase" class="team-meta">2º tempo</div>
-                    </div>
-                    <div class="team-block away">
-                        <span class="team-meta">Visitante</span>
-                        <span id="live-away-name" class="team-name">Palmeiras</span>
-                        <span id="live-away-momentum" class="team-meta">Transição rápida</span>
-                    </div>
-                </div>
-                <div class="mini-stats">
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">Chutes no alvo</div>
-                        <div id="live-shots" class="mini-stat-value">6 · 3</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">Escanteios</div>
-                        <div id="live-corners" class="mini-stat-value">7 · 4</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">Perigo</div>
-                        <div id="live-danger" class="mini-stat-value">74% · 49%</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">Odd alvo</div>
-                        <div id="live-odd" class="mini-stat-value">Over 1.5 @ 1.72</div>
-                    </div>
-                </div>
-                <div class="status-inline">
+                <div id="live-league-name" style="font-size:10px;color:var(--text-faint);font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;">—</div>
+                <div class="status-inline" style="margin:0;">
                     <span id="live-connection-dot" class="status-inline-dot waiting"></span>
-                    <span id="live-connection-text">Modo demonstração ativo. Configure endpoint + match ID para dados reais.</span>
+                    <span id="live-connection-text" style="font-size:10px;">Aguardando</span>
                 </div>
-            </article>
+            </div>
 
-            <article class="live-card ai-signal-box">
-                <div class="live-pill" style="background: rgba(34,211,238,0.10); border-color: rgba(34,211,238,0.2); color: var(--cyan);">
+            <!-- Placar -->
+            <div class="live-scoreboard" style="margin-bottom:var(--space-4);">
+                <div class="team-block">
+                    <span class="team-meta">Mandante</span>
+                    <span id="live-home-name" class="team-name">—</span>
+                    <span id="live-home-momentum" class="team-meta" style="margin-top:4px;"></span>
+                </div>
+                <div class="score-core">
+                    <div id="live-score" class="score-value">— x —</div>
+                    <div id="live-minute" class="minute-tag">0'</div>
+                    <div id="live-phase" class="team-meta">Aguardando</div>
+                </div>
+                <div class="team-block away">
+                    <span class="team-meta">Visitante</span>
+                    <span id="live-away-name" class="team-name">—</span>
+                    <span id="live-away-momentum" class="team-meta" style="margin-top:4px;"></span>
+                </div>
+            </div>
+
+            <!-- KPIs rápidos -->
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-2);margin-bottom:var(--space-4);">
+                <div class="mini-stat"><div class="mini-stat-label">Posse</div><div id="ls-possession" class="mini-stat-value">— · —</div></div>
+                <div class="mini-stat"><div class="mini-stat-label">Chutes</div><div id="ls-shots" class="mini-stat-value">— · —</div></div>
+                <div class="mini-stat"><div class="mini-stat-label">No alvo</div><div id="ls-on-target" class="mini-stat-value">— · —</div></div>
+                <div class="mini-stat"><div class="mini-stat-label">Escanteios</div><div id="ls-corners" class="mini-stat-value">— · —</div></div>
+                <div class="mini-stat"><div class="mini-stat-label">Big chances</div><div id="ls-bigchance" class="mini-stat-value">— · —</div></div>
+            </div>
+
+            <!-- Barras de estatísticas -->
+            <div id="live-stat-bars" style="display:flex;flex-direction:column;gap:8px;">
+                <!-- gerado por JS -->
+            </div>
+
+            <!-- Botões de ação -->
+            <div style="display:flex;gap:var(--space-2);margin-top:var(--space-4);flex-wrap:wrap;">
+                <button class="btn-primary" onclick="fetchAllLiveMatches()">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Buscar partidas ao vivo
+                </button>
+                <button class="btn-secondary" onclick="refreshSelectedMatch()">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    Atualizar partida
+                </button>
+                <input type="hidden" id="live-match-id" value="">
+            </div>
+
+            <!-- Lista de partidas ao vivo -->
+            <div id="live-matches-list" style="margin-top:var(--space-4);max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;">
+                <div style="color:var(--text-faint);font-size:var(--text-sm);">Clique em "Buscar partidas ao vivo" para começar.</div>
+            </div>
+        </section>
+
+        <!-- Feed de eventos -->
+        <section class="card" style="padding:var(--space-4);display:flex;flex-direction:column;">
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--text-faint);text-transform:uppercase;margin-bottom:var(--space-3);">Feed de eventos</div>
+            <div id="live-events-feed" style="flex:1;overflow-y:auto;max-height:520px;display:flex;flex-direction:column;gap:6px;">
+                <div style="color:var(--text-faint);font-size:var(--text-sm);">Selecione uma partida para ver os eventos.</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ── Linha 2: IA ── -->
+    <section class="card ai-signal-box" style="padding:var(--space-4);">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-4);">
+
+            <!-- Coluna 1: Sinal principal -->
+            <div>
+                <div class="live-pill" style="background:rgba(34,211,238,.1);border-color:rgba(34,211,238,.2);color:var(--cyan);margin-bottom:var(--space-3);">
                     <span style="width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block;"></span>
                     AI analysis
                 </div>
-                <div class="ai-headline">
-                    <div>
-                        <div class="mini-stat-label">Sinal atual</div>
-                        <div id="ai-signal" class="team-name" style="font-size: var(--text-lg);">Entrada moderada</div>
-                        <div id="ai-market" class="team-meta" style="margin-top: 6px;">Mercado: Over 1.5 gols</div>
-                    </div>
-                    <span id="ai-risk" class="ai-badge">Risco médio</span>
-                </div>
-                <div>
+                <div class="mini-stat-label">Sinal atual</div>
+                <div id="ai-signal" class="team-name" style="font-size:var(--text-xl);margin:6px 0;">—</div>
+                <div id="ai-market" class="team-meta" style="margin-bottom:var(--space-3);">Selecione uma partida</div>
+                <span id="ai-risk" class="ai-badge">—</span>
+                <div style="margin-top:var(--space-4);">
                     <div class="mini-stat-label">Confiança do modelo</div>
-                    <div class="confidence-meter"><span id="ai-confidence-bar" style="width:78%"></span></div>
-                    <div id="ai-confidence-text" class="team-meta" style="margin-top:8px;">78% de confiança</div>
+                    <div class="confidence-meter" style="margin:8px 0;"><span id="ai-confidence-bar" style="width:0%"></span></div>
+                    <div id="ai-confidence-text" class="team-meta">—</div>
                 </div>
-                <div>
-                    <div class="mini-stat-label">Leitura contextual</div>
-                    <ul id="ai-reasons" class="ai-reasons">
-                        <li>Mandante mantém volume ofensivo acima da média dos últimos 15 minutos.</li>
-                        <li>Pressão e escanteios sustentam cenário favorável para mais um gol.</li>
-                        <li>Odd ainda aceita entrada sem distorcer muito o risco da banca.</li>
-                    </ul>
-                </div>
-                <div style="display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3);">
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">xG proxy</div>
-                        <div id="ai-xg" class="mini-stat-value">1.84</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">Próx. gol</div>
-                        <div id="ai-next-goal" class="mini-stat-value">62% mandante</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">Ação</div>
-                        <div id="ai-action" class="mini-stat-value">Monitorar entrada</div>
-                    </div>
-                </div>
-            </article>
-        </section>
-
-
-        <!-- Zone 3: Operations table -->
-        <section class="card table-zone" aria-label="Operations">
-            <div class="card-header">
-                <div class="card-header-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="3" y1="9" x2="21" y2="9"/>
-                        <line x1="3" y1="15" x2="21" y2="15"/>
-                        <line x1="9" y1="9" x2="9" y2="21"/>
-                    </svg>
-                </div>
-                <span class="card-title">Operation Nodes</span>
-            </div>
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="text-align:center; width:50px;">OK</th>
-                            <th style="width:80px;">Day</th>
-                            <th>Operation Node</th>
-                            <th style="width:160px;">Market Type</th>
-                            <th style="width:130px; text-align:right;">Invest Cap</th>
-                            <th style="width:130px; text-align:right;">Exp. Return</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultado-corpo">
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-
-
-        <!-- Section label -->
-        <div class="section-label">API Integration</div>
-        <!-- Section label -->
-        <div class="section-label">API Integration</div>
-
-        <!-- API Panel -->
-        <section class="card" aria-label="API Configuration">
-            <div class="card-header">
-                <div class="card-header-icon" style="color: var(--cyan);">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="2" y1="12" x2="22" y2="12"/>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                    </svg>
-                </div>
-                <span class="card-title">API Integration</span>
-                <span style="font-family:var(--font-mono); font-size:10px; color:var(--text-faint); margin-left:auto; letter-spacing:0.08em;">READY TO CONNECT</span>
-            </div>
-            <div class="card-body">
-                <div class="api-grid">
-                    <div class="api-field full">
-                        <label class="form-label" for="api-url">Endpoint URL</label>
-                        <input type="url" id="api-url" placeholder="https://api.seuservidor.com/v1/sessions"
-                            style="font-family:var(--font-mono); font-size:var(--text-xs);">
-                    </div>
-                    <div class="api-field">
-                        <label class="form-label" for="api-key">API Key</label>
-                        <div class="api-key-wrap">
-                            <input type="password" id="api-key" placeholder="sk-••••••••••••••••">
-                            <button class="toggle-key-vis" onclick="toggleApiKeyVisibility()" title="Mostrar/ocultar chave">
-                                <svg id="eye-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="api-field">
-                        <label class="form-label" for="api-method">HTTP Method</label>
-                        <select id="api-method">
-                            <option value="POST">POST</option>
-                            <option value="PUT">PUT</option>
-                            <option value="PATCH">PATCH</option>
-                            <option value="GET">GET</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="api-btn-row">
-                    <button class="btn-api-action cyan" onclick="testAPIConnection()">
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                        Testar Conexão
-                    </button>
-                    <button class="btn-api-action" onclick="pushDataToAPI()">
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                        Enviar Sessão
-                    </button>
-                </div>
-
-                <div class="api-status-row">
-                    <div class="api-status-dot" id="api-dot"></div>
-                    <span id="api-status-text">Aguardando configuração · Configure endpoint e API key para começar</span>
-                </div>
-
-                <pre id="api-response-box"></pre>
-
-                <!-- Developer hint -->
-                <div style="margin-top:var(--space-5); padding:var(--space-4); background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm);">
-                    <div style="font-family:var(--font-mono); font-size:10px; color:var(--cyan); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:var(--space-3);">// Payload enviado (exemplo)</div>
-                    <pre id="payload-preview" style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted); line-height:1.7; white-space:pre-wrap; word-break:break-all;">Preencha os parâmetros acima para visualizar o payload.</pre>
+                <div style="margin-top:var(--space-3);">
+                    <div class="mini-stat-label">Ação recomendada</div>
+                    <div id="ai-action" class="mini-stat-value" style="margin-top:4px;">—</div>
                 </div>
             </div>
-        </section>
 
-    
-</div>
+            <!-- Coluna 2: Score breakdown -->
+            <div>
+                <div class="mini-stat-label" style="margin-bottom:var(--space-3);">Score breakdown</div>
+                <div id="ai-score-breakdown" style="display:flex;flex-direction:column;gap:8px;">
+                    <!-- gerado por JS -->
+                </div>
+                <div style="margin-top:var(--space-4);">
+                    <div class="mini-stat-label" style="margin-bottom:var(--space-2);">Métricas derivadas</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2);">
+                        <div class="mini-stat"><div class="mini-stat-label">xG proxy</div><div id="ai-xg" class="mini-stat-value">—</div></div>
+                        <div class="mini-stat"><div class="mini-stat-label">Próx. gol</div><div id="ai-next-goal" class="mini-stat-value">—</div></div>
+                        <div class="mini-stat"><div class="mini-stat-label">BTTS %</div><div id="ai-btts" class="mini-stat-value">—</div></div>
+                        <div class="mini-stat"><div class="mini-stat-label">Over 2.5 %</div><div id="ai-o25" class="mini-stat-value">—</div></div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Coluna 3: Leitura + mercados -->
+            <div>
+                <div class="mini-stat-label" style="margin-bottom:var(--space-3);">Leitura contextual</div>
+                <ul id="ai-reasons" class="ai-reasons" style="margin-bottom:var(--space-4);"></ul>
+                <div class="mini-stat-label" style="margin-bottom:var(--space-2);">Mercados recomendados</div>
+                <div id="ai-markets-list" style="display:flex;flex-direction:column;gap:6px;">
+                    <!-- gerado por JS -->
+                </div>
+            </div>
 
-<!-- ═══ TAB: API / CONFIG ═════════════════════════════════════════════ -->
-<div id="tab-api" class="page-view">
+        </div>
+    </section>
+
+    <!-- Operation Nodes (tabela de banca) -->
+    <section class="card table-zone" style="margin-top:var(--space-4);" aria-label="Operations">
+        <div class="card-header">
+            <div class="card-header-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="3" y1="15" x2="21" y2="15"/>
+                    <line x1="9" y1="9" x2="9" y2="21"/>
+                </svg>
+            </div>
+            <span class="card-title">Operation Nodes</span>
+        </div>
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align:center;width:50px;">OK</th>
+                        <th style="width:80px;">Day</th>
+                        <th>Operation Node</th>
+                        <th style="width:160px;">Market Type</th>
+                        <th style="width:130px;text-align:right;">Invest Cap</th>
+                        <th style="width:130px;text-align:right;">Exp. Return</th>
+                    </tr>
+                </thead>
+                <tbody id="resultado-corpo"></tbody>
+            </table>
+        </div>
+    </section>
 
 </div>
 
@@ -2783,59 +2743,27 @@
         label.textContent = text;
     }
 
-    function renderLiveSnapshot(snapshot) {
-        document.getElementById('live-home-name').textContent = snapshot.home;
-        document.getElementById('live-away-name').textContent = snapshot.away;
-        document.getElementById('live-score').textContent = `${snapshot.scoreHome} x ${snapshot.scoreAway}`;
-        document.getElementById('live-minute').textContent = `${snapshot.minute}'`;
-        document.getElementById('live-phase').textContent = snapshot.phase;
-        document.getElementById('live-home-momentum').textContent = snapshot.homeMomentum;
-        document.getElementById('live-away-momentum').textContent = snapshot.awayMomentum;
-        document.getElementById('live-shots').textContent = snapshot.shots;
-        document.getElementById('live-corners').textContent = snapshot.corners;
-        document.getElementById('live-danger').textContent = snapshot.danger;
-        document.getElementById('live-odd').textContent = snapshot.oddLabel;
+    function renderLiveSnapshot(s) {
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val ?? '—'; };
+        set('live-home-name',     s.home);
+        set('live-away-name',     s.away);
+        set('live-score',         `${s.scoreHome ?? '—'} x ${s.scoreAway ?? '—'}`);
+        set('live-minute',        `${s.minute ?? 0}'`);
+        set('live-phase',         s.phase || '—');
+        set('live-home-momentum', s.homeMomentum || '');
+        set('live-away-momentum', s.awayMomentum || '');
+        set('ls-possession',      s.possession || '— · —');
+        set('ls-shots',           s.shots      || '— · —');
+        set('ls-on-target',       s.onTarget   || '— · —');
+        set('ls-corners',         s.corners    || '— · —');
+        set('ls-bigchance',       s.bigChance  || '— · —');
+        set('ai-xg',              s.xg != null ? String(parseFloat(s.xg).toFixed(2)) : '—');
+        set('ai-next-goal',       s.nextGoal   || '—');
+        set('ai-btts',            s.bttsProb != null ? `${s.bttsProb}%` : '—');
+        set('ai-o25',             s.o25prob   != null ? `${s.o25prob}%`  : '—');
+        if (s.league) setLeagueName(s.league);
     }
 
-    async function fetchLiveData() {
-        const base = document.getElementById('api-url').value.trim();
-        const matchId = document.getElementById('live-match-id').value.trim();
-        const hasRealEndpoint = base && matchId;
-
-        if (!hasRealEndpoint) {
-            liveState.mode = 'demo';
-            const snapshot = liveState.snapshots[liveState.sequence % liveState.snapshots.length];
-            liveState.sequence += 1;
-            renderLiveSnapshot(snapshot);
-            runAIAnalysis(snapshot, true);
-            updateStatusBadge('live-connection-dot', 'live-connection-text', 'waiting', 'Modo demonstração ativo. Configure endpoint + match ID para dados reais.');
-            return snapshot;
-        }
-
-        try {
-            updateStatusBadge('live-connection-dot', 'live-connection-text', 'waiting', 'Buscando partida ao vivo…');
-            const ctrl = new AbortController();
-            const timeout = setTimeout(() => ctrl.abort(), 10000);
-            const endpoint = `${base.replace(/\/$/, '')}/${matchId}`;
-            const res = await fetch(endpoint, { method: 'GET', signal: ctrl.signal, headers: buildHeaders() });
-            clearTimeout(timeout);
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
-            const snapshot = normalizeLivePayload(data);
-            renderLiveSnapshot(snapshot);
-            runAIAnalysis(snapshot, true);
-            updateStatusBadge('live-connection-dot', 'live-connection-text', 'live', 'Conectado ao endpoint ao vivo e atualizando o painel.');
-            return snapshot;
-        } catch (err) {
-            updateStatusBadge('live-connection-dot', 'live-connection-text', 'error', 'Falha no live endpoint. Voltando para demonstração.');
-            showToast('Live endpoint falhou, usando modo demonstração.', 'warning');
-            const snapshot = liveState.snapshots[liveState.sequence % liveState.snapshots.length];
-            liveState.sequence += 1;
-            renderLiveSnapshot(snapshot);
-            runAIAnalysis(snapshot, true);
-            return snapshot;
-        }
-    }
 
     function normalizeLivePayload(data) {
         return {
@@ -2920,56 +2848,122 @@
         document.getElementById('ai-reasons').innerHTML = ai.reasons.map(reason => `<li>${escapeHtml(reason)}</li>`).join('');
     }
 
-    async function runAIAnalysis(snapshot = null, silent = false) {
-        const liveSnapshot = getSnapshotForAI(snapshot);
-        const aiEndpoint = document.getElementById('ai-endpoint')?.value.trim();
-        const payload = {
-            snapshot: liveSnapshot,
-            bankroll: Number(appDados.valorInicial || 0),
-            odd: Number(appDados.odd || 0),
-            cycleDays: Number(appDados.dias || 0)
-        };
-
-        if (!aiEndpoint) {
-            const ai = heuristicAI(liveSnapshot);
-            renderAIAnalysis(ai);
-            updateStatusBadge('ai-status-dot', 'ai-status-text', 'waiting', 'IA local (heurística) ativa. Configure AI endpoint para análise externa.');
-            if (!silent) showToast('Análise local atualizada.', 'success');
-            return ai;
+    async function runAIAnalysis(s, demoMode) {
+        if (demoMode) {
+            document.getElementById('ai-signal').textContent        = 'Modo demo';
+            document.getElementById('ai-market').textContent        = 'Conecte a API para análise real';
+            document.getElementById('ai-risk').textContent          = '—';
+            document.getElementById('ai-confidence-bar').style.width= '0%';
+            document.getElementById('ai-confidence-text').textContent = '—';
+            document.getElementById('ai-action').textContent        = '—';
+            document.getElementById('ai-reasons').innerHTML         = '<li>Configure endpoint e selecione uma partida ao vivo.</li>';
+            document.getElementById('ai-score-breakdown').innerHTML = '';
+            document.getElementById('ai-markets-list').innerHTML    = '';
+            return;
         }
 
-        try {
-            updateStatusBadge('ai-status-dot', 'ai-status-text', 'waiting', 'Enviando snapshot para análise externa…');
-            const ctrl = new AbortController();
-            const timeout = setTimeout(() => ctrl.abort(), 12000);
-            const res = await fetch(aiEndpoint, {
-                method: 'POST',
-                signal: ctrl.signal,
-                headers: { ...buildHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            clearTimeout(timeout);
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const ai = await res.json();
-            renderAIAnalysis({
-                confidence: Number(ai.confidence ?? 65),
-                signal: ai.signal || 'Análise externa',
-                market: ai.market || 'Mercado não informado',
-                risk: ai.risk || 'Risco moderado',
-                action: ai.action || 'Monitorar',
-                xg: Number(ai.xg ?? liveSnapshot.xg ?? 1.2).toFixed(2),
-                nextGoal: ai.nextGoal || liveSnapshot.nextGoal || '50% mandante',
-                reasons: Array.isArray(ai.reason) ? ai.reason : (Array.isArray(ai.reasons) ? ai.reasons : ['Modelo externo respondeu sem justificativas detalhadas.'])
-            });
-            updateStatusBadge('ai-status-dot', 'ai-status-text', 'live', 'IA externa conectada e processando sinais em tempo real.');
-            if (!silent) showToast('Análise de IA atualizada.', 'success');
-        } catch (err) {
-            const ai = heuristicAI(liveSnapshot);
-            renderAIAnalysis(ai);
-            updateStatusBadge('ai-status-dot', 'ai-status-text', 'error', 'AI endpoint falhou. Heurística local assumiu o painel.');
-            if (!silent) showToast('AI endpoint falhou, usando análise local.', 'warning');
+        const totalGoals  = (s.scoreHome || 0) + (s.scoreAway || 0);
+        const min         = s.minute || 0;
+        const diff        = Math.abs((s.scoreHome||0) - (s.scoreAway||0));
+        const xg          = parseFloat(s.xg) || 0;
+        const btts        = (s.scoreHome > 0 && s.scoreAway > 0);
+        const bttsProb    = s.bttsProb || 0;
+        const o25prob     = s.o25prob  || 0;
+
+        // ── Score breakdown ───────────────────────────────────────
+        const factors = [
+            { label: 'Volume de chutes',  score: Math.min(30, (parseFloat(s.onTarget?.split('·')[0])||0) * 5),  max: 30 },
+            { label: 'xG acumulado',      score: Math.min(25, xg * 12),                                         max: 25 },
+            { label: 'Big chances',       score: Math.min(20, (parseFloat(s.bigChance?.split('·')[0])||0) * 5), max: 20 },
+            { label: 'Timing (minuto)',   score: Math.min(15, min * 0.17),                                       max: 15 },
+            { label: 'Equilíbrio',        score: Math.min(10, Math.max(0, 10 - diff * 3)),                       max: 10 },
+        ];
+        const totalScore = Math.round(factors.reduce((a, f) => a + f.score, 0));
+        const maxScore   = factors.reduce((a, f) => a + f.max, 0);
+        const confidence = Math.round(40 + (totalScore / maxScore) * 51);
+
+        const breakdown = document.getElementById('ai-score-breakdown');
+        if (breakdown) {
+            breakdown.innerHTML = factors.map(f => {
+                const pct = Math.round(f.score / f.max * 100);
+                return `<div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                        <span style="font-size:10px;color:var(--text-faint);">${f.label}</span>
+                        <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">${Math.round(f.score)}/${f.max}</span>
+                    </div>
+                    <div style="height:4px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;">
+                        <div style="width:${pct}%;height:100%;background:var(--cyan);border-radius:999px;transition:width .5s;"></div>
+                    </div>
+                </div>`;
+            }).join('') +
+            `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:10px;color:var(--text-faint);font-family:var(--font-mono);">SCORE TOTAL</span>
+                <span style="font-family:var(--font-mono);font-size:14px;font-weight:800;color:var(--cyan);">${totalScore}/${maxScore}</span>
+            </div>`;
         }
+
+        // ── Sinal + mercados ──────────────────────────────────────
+        let signal = 'Sem edge claro';
+        let market = 'Aguardar';
+        let risk   = 'Risco baixo';
+        let action = 'Continuar monitorando';
+        const reasons = [];
+        const markets = [];
+
+        if (totalScore >= 55 && min >= 60 && totalGoals <= 2) {
+            signal = 'Entrada forte';
+            market = totalGoals <= 1 ? 'Over 1.5 gols' : 'Over 2.5 gols';
+            risk   = 'Risco médio';
+            action = 'Entrada recomendada';
+            reasons.push('Volume ofensivo alto com xG acumulado relevante.');
+            reasons.push('Timing favorável: minutos finais com pressão sustentada.');
+            if (btts) reasons.push('Ambos já marcaram — mercado BTTS confirmado.');
+            markets.push({ label: `Over ${totalGoals}.5`, prob: 72 + Math.round(xg * 3), color: 'var(--accent)' });
+            if (o25prob > 60) markets.push({ label: 'Over 2.5', prob: o25prob, color: 'var(--cyan)' });
+            if (bttsProb > 70) markets.push({ label: 'BTTS Sim', prob: bttsProb, color: '#f0b429' });
+        } else if (totalScore >= 35 && min >= 45) {
+            signal = 'Entrada moderada';
+            market = 'Monitorar Over ' + (totalGoals < 2 ? '1.5' : '2.5');
+            risk   = 'Risco moderado';
+            action = 'Observar próximos 5 min';
+            reasons.push('Jogo tem atividade ofensiva razoável mas ainda sem desequilíbrio claro.');
+            reasons.push('Aguardar evento catalisador (escanteio, substituição, pressão) antes de entrar.');
+            markets.push({ label: `Over ${Math.max(totalGoals,1)}.5`, prob: o25prob || 50, color: 'var(--cyan)' });
+            if (diff === 0 && bttsProb > 50) markets.push({ label: 'BTTS Sim', prob: bttsProb, color: '#f0b429' });
+        } else if (min >= 80 && totalGoals >= 4) {
+            signal = 'Evitar entrada';
+            market = 'Fechar exposição';
+            risk   = 'Risco alto';
+            action = 'Proteger banca';
+            reasons.push('Jogo já entregou alto volume — preços comprimidos.');
+            reasons.push('Variância no fim de partida aumenta risco sem compensação proporcional.');
+        } else {
+            reasons.push('Partida ainda não apresenta desequilíbrio suficiente para entrada.');
+            reasons.push('Aguardar mais volume ofensivo ou queda de odds mais expressiva.');
+        }
+
+        // Renderizar mercados
+        const marketsList = document.getElementById('ai-markets-list');
+        if (marketsList) {
+            marketsList.innerHTML = markets.length ? markets.map(m => `
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.02);">
+                    <span style="font-size:11px;font-weight:600;color:${m.color};">${m.label}</span>
+                    <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">${m.prob}%</span>
+                </div>`).join('')
+            : '<div style="font-size:11px;color:var(--text-faint);">Sem mercados recomendados.</div>';
+        }
+
+        // Renderizar sinal
+        document.getElementById('ai-signal').textContent         = signal;
+        document.getElementById('ai-market').textContent         = market;
+        document.getElementById('ai-risk').textContent           = risk;
+        document.getElementById('ai-confidence-bar').style.width = `${confidence}%`;
+        document.getElementById('ai-confidence-text').textContent= `${confidence}% de confiança`;
+        document.getElementById('ai-action').textContent         = action;
+        const ul = document.getElementById('ai-reasons');
+        if (ul) ul.innerHTML = reasons.map(r => `<li>${escapeHtml(r)}</li>`).join('');
     }
+
 
     function startLivePolling() {
         const seconds = Math.max(5, Number(document.getElementById('live-polling')?.value || 15));
@@ -3053,61 +3047,227 @@
         if (matchIdEl) matchIdEl.value = fixtureId;
 
         // Atualiza placar básico imediatamente
-        const snapshot = {
-            home, away, scoreHome: gh, scoreAway: ga, minute,
-            phase: '2º tempo', homeMomentum: '—', awayMomentum: '—',
-            shots: '— · —', corners: '— · —', danger: '— · —',
-            oddLabel: 'Carregando…', xg: 0, nextGoal: '50% mandante'
-        };
-        renderLiveSnapshot(snapshot);
+        const snap = { home, away, scoreHome: gh, scoreAway: ga, minute, league,
+            phase: minute >= 45 ? '2º tempo' : '1º tempo',
+            homeMomentum:'—', awayMomentum:'—',
+            possession:'—·—', shots:'—·—', onTarget:'—·—',
+            corners:'—·—', bigChance:'—·—', xg:0, nextGoal:'50% mand.' };
+        renderLiveSnapshot(snap);
+        setLeagueName(league);
         showToast(`Carregando ${home} x ${away}…`, 'info');
+        updateStatusBadge('live-connection-dot','live-connection-text','waiting','Buscando dados ao vivo…');
 
-        // Busca estatísticas e eventos em paralelo
-        try {
-            const [statsData, eventsData] = await Promise.all([
-                rapidGet(`/footballlivestatistics?fixture_id=${fixtureId}`),
-                rapidGet(`/footballliveevents?fixture_id=${fixtureId}`)
-            ]);
+        // Buscar incidents + statistics em paralelo
+        Promise.allSettled([
+            rapidGet(`/api/match/${fixtureId}/incidents`),
+            rapidGet(`/api/match/${fixtureId}/statistics`)
+        ]).then(([incRes, statRes]) => {
+            const incidents  = incRes.status  === 'fulfilled' ? (incRes.value.incidents   || []) : [];
+            const statistics = statRes.status === 'fulfilled' ? (statRes.value.statistics || []) : [];
 
-            const stats = statsData.response || [];
-            const events = eventsData.response || [];
-
-            const enriched = enrichSnapshotWithStats(snapshot, stats);
+            const enriched = enrichSnapshotWithStats(snap, statistics);
             renderLiveSnapshot(enriched);
-            renderEvents(events);
+            renderStatBars(statistics);
+            renderEventsFeed(incidents);
             runAIAnalysis(enriched, false);
-
-            updateStatusBadge('live-connection-dot', 'live-connection-text', 'live', `${home} x ${away} · Dados ao vivo carregados.`);
-        } catch(err) {
-            showToast('Erro ao carregar detalhes: ' + err.message, 'error');
-            runAIAnalysis(snapshot, false);
-        }
+            updateStatusBadge('live-connection-dot','live-connection-text','live',
+                `${home} x ${away} · ${incidents.length} eventos · Ao vivo`);
+        }).catch(err => {
+            showToast('Erro: ' + err.message, 'error');
+            runAIAnalysis(snap, true);
+        });
     }
 
-    function enrichSnapshotWithStats(base, stats) {
-        const get = (teamIdx, label) => {
-            const t = stats[teamIdx];
-            if (!t) return null;
-            const s = (t.statistics || []).find(s => s.type?.toLowerCase().includes(label.toLowerCase()));
-            return s ? s.value : null;
-        };
+    function refreshSelectedMatch() {
+        const matchId = document.getElementById('live-match-id')?.value?.trim();
+        const home    = document.getElementById('live-home-name')?.textContent || '';
+        const away    = document.getElementById('live-away-name')?.textContent || '';
+        if (!matchId) { showToast('Selecione uma partida primeiro.', 'warning'); return; }
+        const score   = (document.getElementById('live-score')?.textContent || '0 x 0').split('x').map(s => parseInt(s.trim()) || 0);
+        const min     = parseInt(document.getElementById('live-minute')?.textContent || '0') || 0;
+        const league  = document.getElementById('live-league-name')?.textContent || '';
+        selectLiveMatch(matchId, home, away, score[0], score[1], min, league);
+    }
 
-        const shotsH = get(0, 'shots on goal') ?? get(0, 'shots on target') ?? '—';
-        const shotsA = get(1, 'shots on goal') ?? get(1, 'shots on target') ?? '—';
-        const cornH  = get(0, 'corner') ?? '—';
-        const cornA  = get(1, 'corner') ?? '—';
-        const posH   = get(0, 'ball possession') ?? '—';
-        const posA   = get(1, 'ball possession') ?? '—';
+    function setLeagueName(name) {
+        const el = document.getElementById('live-league-name');
+        if (el) el.textContent = name || '—';
+    }
+
+    /* Renderizar barras de estatísticas */
+    function renderStatBars(statistics) {
+        const bars = document.getElementById('live-stat-bars');
+        if (!bars) return;
+
+        // Pegar período ALL
+        let items = [];
+        for (const period of (statistics || [])) {
+            if (period.period === 'ALL') {
+                for (const group of (period.groups || [])) {
+                    for (const item of (group.statisticsItems || [])) {
+                        items.push(item);
+                    }
+                }
+                break;
+            }
+        }
+
+        const SHOW_KEYS = ['ballPossession','totalShotsOnGoal','shotsOnGoal','cornerKicks',
+                           'bigChanceCreated','fouls','yellowCards','totalTackle'];
+        const shown = items.filter(i => SHOW_KEYS.includes(i.key));
+        if (!shown.length) { bars.innerHTML = '<div style="color:var(--text-faint);font-size:11px;">Sem estatísticas disponíveis.</div>'; return; }
+
+        bars.innerHTML = shown.map(item => {
+            const hv = parseFloat(item.homeValue) || 0;
+            const av = parseFloat(item.awayValue) || 0;
+            const total = hv + av || 1;
+            const hpct = Math.round(hv / total * 100);
+            const apct = 100 - hpct;
+            const homeColor = item.statisticsType === 'positive' ? 'var(--cyan)' : '#ff4d6a';
+            return `
+            <div style="display:grid;grid-template-columns:90px 1fr 90px;align-items:center;gap:8px;">
+                <span style="font-size:10px;font-family:var(--font-mono);color:var(--text-faint);text-align:right;">${item.home}</span>
+                <div>
+                    <div style="font-size:9px;color:var(--text-faint);text-align:center;margin-bottom:3px;letter-spacing:.06em;">${item.name}</div>
+                    <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:999px;display:flex;overflow:hidden;">
+                        <div style="width:${hpct}%;background:${homeColor};border-radius:999px 0 0 999px;transition:width .5s;"></div>
+                        <div style="width:${apct}%;background:#ff4d6a;border-radius:0 999px 999px 0;transition:width .5s;"></div>
+                    </div>
+                </div>
+                <span style="font-size:10px;font-family:var(--font-mono);color:var(--text-faint);">${item.away}</span>
+            </div>`;
+        }).join('');
+    }
+
+    /* Renderizar feed de eventos (incidents) */
+    function renderEventsFeed(incidents) {
+        const feed = document.getElementById('live-events-feed');
+        if (!feed) return;
+
+        const iconMap = {
+            'goal':           '⚽',
+            'card':           '',  // cartão tratado abaixo
+            'substitution':   '🔄',
+            'period':         '⏱️',
+            'varDecision':    '📺',
+            'penalty':        '🎯',
+            'missedPenalty':  '❌',
+            'injuryTime':     '⌛',
+        };
+        const cardColor = (c) => c === 'yellow' ? '#f0b429' : '#ef4444';
+
+        const rows = incidents
+            .filter(i => i.incidentType !== 'period' || i.text)
+            .reverse()
+            .map(inc => {
+                const type   = inc.incidentType || '';
+                const min    = inc.time != null ? `${inc.time}'` : '';
+                const player = inc.player?.name || inc.playerName || '';
+                const team   = inc.isHome ? 'H' : 'A';
+                let icon = iconMap[type] || '•';
+                let desc = '';
+                let color = 'var(--text-faint)';
+
+                if (type === 'goal') {
+                    icon = '⚽'; color = 'var(--accent)';
+                    desc = `${player} (${inc.homeScore}-${inc.awayScore})`;
+                } else if (type === 'card') {
+                    const cc = inc.incidentClass || inc.cardType || 'yellow';
+                    icon = `<span style="display:inline-block;width:10px;height:14px;background:${cardColor(cc)};border-radius:2px;vertical-align:middle;"></span>`;
+                    color = cardColor(cc);
+                    desc = player;
+                } else if (type === 'substitution') {
+                    icon = '🔄'; color = '#60a5fa';
+                    desc = `${inc.playerIn?.name || '?'} ↑ ${player} ↓`;
+                } else if (type === 'period') {
+                    icon = '⏱️'; color = 'var(--text-faint)';
+                    desc = inc.text || '';
+                } else {
+                    desc = player || type;
+                }
+
+                return `<div style="display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-faint);flex-shrink:0;min-width:28px;">${min}</span>
+                    <span style="flex-shrink:0;font-size:13px;">${icon}</span>
+                    <div style="flex:1;">
+                        <span style="font-size:11px;color:${color};font-weight:${type==='goal'?'700':'400'};">${escapeHtml(desc)}</span>
+                        ${team ? `<span style="font-size:9px;color:var(--text-faint);margin-left:4px;">[${team}]</span>` : ''}
+                    </div>
+                </div>`;
+            });
+
+        feed.innerHTML = rows.length
+            ? rows.join('')
+            : '<div style="color:var(--text-faint);font-size:11px;">Sem eventos registrados.</div>';
+    }
+
+
+    function enrichSnapshotWithStats(base, statistics) {
+        // footapi7 retorna statistics[].period === 'ALL' com groups[].statisticsItems[]
+        const statsMap = {};
+        for (const period of (statistics || [])) {
+            if (period.period === 'ALL') {
+                for (const group of (period.groups || [])) {
+                    for (const item of (group.statisticsItems || [])) {
+                        statsMap[item.key] = item;
+                    }
+                }
+                break;
+            }
+        }
+
+        const get = (key) => statsMap[key] || null;
+        const hv  = (key) => get(key)?.home ?? '—';
+        const av  = (key) => get(key)?.away ?? '—';
+
+        const possession = get('ballPossession');
+        const posH = possession?.home || '—';
+        const posA = possession?.away || '—';
+
+        const shots    = get('totalShotsOnGoal');
+        const shotsH   = shots?.home ?? '—';
+        const shotsA   = shots?.away ?? '—';
+        const onTarget = get('shotsOnGoal');
+        const onTH     = onTarget?.home ?? '—';
+        const onTA     = onTarget?.away ?? '—';
+        const cornersH = hv('cornerKicks');
+        const cornersA = av('cornerKicks');
+        const bigH     = hv('bigChanceCreated');
+        const bigA     = av('bigChanceCreated');
+
+        // xG proxy: big chances * 0.35 + shots on goal * 0.1
+        const xgH = ((parseFloat(bigH)||0) * 0.35 + (parseFloat(onTH)||0) * 0.1).toFixed(2);
+        const xgA = ((parseFloat(bigA)||0) * 0.35 + (parseFloat(onTA)||0) * 0.1).toFixed(2);
+        const xg  = parseFloat(xgH) + parseFloat(xgA);
+
+        // Próx. gol: quem tem mais posse + big chances
+        const pHraw = parseFloat(posH) || 50;
+        const homeAdv = pHraw + (parseFloat(bigH)||0) * 5;
+        const nextGoal = homeAdv > 60 ? `${Math.min(95, Math.round(homeAdv))}% mand.`
+                       : homeAdv < 40 ? `${Math.min(95, Math.round(100-homeAdv))}% vis.`
+                       : '50% cada';
+
+        // BTTS e Over 2.5 estimados
+        const totalGoals = (base.scoreHome||0) + (base.scoreAway||0);
+        const minute     = base.minute || 0;
+        const bttsProb   = (base.scoreHome > 0 && base.scoreAway > 0) ? 100
+                         : Math.round(Math.min(90, (parseFloat(xgH)+parseFloat(xgA)) * 28 + minute * 0.2));
+        const o25prob    = totalGoals >= 3 ? 100
+                         : Math.round(Math.min(90, xg * 22 + minute * 0.15 + totalGoals * 18));
 
         return {
             ...base,
-            shots: `${shotsH} · ${shotsA}`,
-            corners: `${cornH} · ${cornA}`,
-            danger: `${posH} · ${posA}`,
-            oddLabel: 'Estatísticas ao vivo',
-            xg: ((Number(shotsH)||0) * 0.18 + (Number(cornH)||0) * 0.06).toFixed(2)
+            possession: `${posH} · ${posA}`,
+            shots:      `${shotsH} · ${shotsA}`,
+            onTarget:   `${onTH} · ${onTA}`,
+            corners:    `${cornersH} · ${cornersA}`,
+            bigChance:  `${bigH} · ${bigA}`,
+            xg, xgH, xgA, nextGoal, bttsProb, o25prob,
+            homeMomentum: pHraw > 58 ? 'Dominando' : pHraw < 42 ? 'Sob pressão' : 'Equilibrado',
+            awayMomentum: pHraw < 42 ? 'Dominando' : pHraw > 58 ? 'Sob pressão' : 'Equilibrado',
         };
     }
+
 
     function renderEvents(events) {
         const feed = document.getElementById('live-events-feed');
