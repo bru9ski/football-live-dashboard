@@ -2607,7 +2607,7 @@
        API: Test connection
     =============================================================== */
     async function testAPIConnection() {
-        const url = document.getElementById('api-url').value.trim();
+        const url = document.getElementById('api-url')?.value?.trim() || '';
         if (!url) { showToast('Configure um endpoint URL primeiro.', 'warning'); return; }
 
         setApiStatus('loading', 'Testando conexão…');
@@ -2639,10 +2639,10 @@
        API: Push session data
     =============================================================== */
     async function pushDataToAPI() {
-        const url = document.getElementById('api-url').value.trim();
+        const url = document.getElementById('api-url')?.value?.trim() || '';
         if (!url) { showToast('Configure um endpoint URL primeiro.', 'warning'); return; }
 
-        const method  = document.getElementById('api-method').value;
+        const method  = document.getElementById('api-method')?.value || 'GET';
         const payload = buildPayload();
 
         setApiStatus('loading', 'Enviando sessão…');
@@ -2677,7 +2677,7 @@
        API HELPERS
     =============================================================== */
     function buildHeaders() {
-        const key = document.getElementById('api-key').value.trim();
+        const key = document.getElementById('api-key')?.value?.trim() || RAPIDAPI_KEY;
         const headers = { 'Accept': 'application/json' };
         if (key) headers['Authorization'] = 'Bearer ' + key;
         return headers;
@@ -2984,9 +2984,12 @@
        RAPIDAPI: footapi7
     =============================================================== */
     const RAPIDAPI_HOST = 'footapi7.p.rapidapi.com';
+    const RAPIDAPI_KEY  = '0bb9dde929msh28905c170d2d777p1ed558jsn2b2363e12e87';
 
     function buildRapidHeaders() {
-        const key = document.getElementById('api-key').value.trim() || '0bb9dde929msh28905c170d2d777p1ed558jsn2b2363e12e87';
+        // Tenta ler key de campo de config se existir; fallback para constante embutida
+        const keyEl = document.getElementById('api-key') || document.getElementById('config-rapidapi-key');
+        const key = keyEl?.value?.trim() || RAPIDAPI_KEY;
         return {
             'X-RapidAPI-Key': key,
             'X-RapidAPI-Host': RAPIDAPI_HOST
@@ -3394,14 +3397,13 @@
     document.getElementById('dias').value = appDados.dias;
 
     // RapidAPI: pré-preenche campos se ainda vazios
-    const _apiUrlEl = document.getElementById('api-url');
-    const _apiKeyEl = document.getElementById('api-key');
-    if (_apiUrlEl && !_apiUrlEl.value.trim()) {
-        _apiUrlEl.value = 'https://footapi7.p.rapidapi.com';
-    }
-    if (_apiKeyEl && !_apiKeyEl.value.trim()) {
-        _apiKeyEl.value = '0bb9dde929msh28905c170d2d777p1ed558jsn2b2363e12e87';
-    }
+    // Campos de config opcionais — só preenche se existirem no DOM
+    ['api-url', 'api-key'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value?.trim()) {
+            el.value = id === 'api-url' ? 'https://footapi7.p.rapidapi.com' : RAPIDAPI_KEY;
+        }
+    });
 
 
     fetchLiveData();
