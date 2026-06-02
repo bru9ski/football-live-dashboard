@@ -2987,9 +2987,9 @@
 
 
     /* ===============================================================
-       RAPIDAPI: free-api-live-football-data
+       RAPIDAPI: footapi7
     =============================================================== */
-    const RAPIDAPI_HOST = 'free-api-live-football-data.p.rapidapi.com';
+    const RAPIDAPI_HOST = 'footapi7.p.rapidapi.com';
 
     function buildRapidHeaders() {
         const key = document.getElementById('api-key').value.trim() || '0bb9dde929msh28905c170d2d777p1ed558jsn2b2363e12e87';
@@ -3012,8 +3012,8 @@
     async function fetchAllLiveMatches() {
         updateStatusBadge('live-connection-dot', 'live-connection-text', 'waiting', 'Buscando partidas ao vivo na API…');
         try {
-            const data = await rapidGet('/footballlive');
-            const matches = data.response || [];
+            const data = await rapidGet('/api/matches/live');
+            const matches = (data.events || []).map(normalizeEvent);
             renderLiveMatchesList(matches);
             updateStatusBadge('live-connection-dot', 'live-connection-text', 'live', `${matches.length} partida(s) ao vivo encontrada(s).`);
             showToast(`${matches.length} partida(s) ao vivo encontrada(s).`, 'success');
@@ -3145,7 +3145,7 @@
         try {
             updateStatusBadge('live-connection-dot', 'live-connection-text', 'waiting', 'Atualizando partida ao vivo…');
             const [fixtureData, statsData, eventsData] = await Promise.all([
-                rapidGet(`/footballlive`),
+                rapidGet('/api/matches/live'),
                 rapidGet(`/footballlivestatistics?fixture_id=${matchId}`),
                 rapidGet(`/footballliveevents?fixture_id=${matchId}`)
             ]);
@@ -3237,7 +3237,7 @@
     const _apiUrlEl = document.getElementById('api-url');
     const _apiKeyEl = document.getElementById('api-key');
     if (_apiUrlEl && !_apiUrlEl.value.trim()) {
-        _apiUrlEl.value = 'https://free-api-live-football-data.p.rapidapi.com';
+        _apiUrlEl.value = 'https://footapi7.p.rapidapi.com';
     }
     if (_apiKeyEl && !_apiKeyEl.value.trim()) {
         _apiKeyEl.value = '0bb9dde929msh28905c170d2d777p1ed558jsn2b2363e12e87';
@@ -3252,6 +3252,129 @@
     /* ===============================================================
        TAB NAVIGATION
     =============================================================== */
+    
+    /* ===============================================================
+       NORMALIZE — converte footapi7 → formato interno do dashboard
+    =============================================================== */
+    function frac2dec(frac) {
+        if (!frac || frac === '—') return null;
+        if (typeof frac === 'number') return frac;
+        const parts = String(frac).split('/');
+        if (parts.length === 2) return +(parseInt(parts[0]) / parseInt(parts[1]) + 1).toFixed(2);
+        return parseFloat(frac) || null;
+    }
+
+    function normalizeEvent(e) {
+        const min = (() => {
+            const t = e.time || {};
+            const s = e.status || {};
+            if (s.type === 'inprogress') {
+                const elapsed = t.initial != null ? Math.floor((Date.now()/1000 - (e.startTimestamp||0)) / 60) : null;
+                if (elapsed != null) return Math.min(elapsed, 90);
+                if (s.description === '1st half') return 25;
+                if (s.description === '2nd half') return 65;
+                if (s.description === 'Halftime') return 45;
+                return 50;
+            }
+            return 0;
+        })();
+
+        return {
+            fixture: {
+                id:     e.id,
+                status: {
+                    elapsed:     min,
+                    long:        (e.status || {}).description || '',
+                    short:       (e.status || {}).type || '',
+                }
+            },
+            league: {
+                name:    (e.tournament || {}).name || '—',
+                country: ((e.tournament || {}).category || {}).name || '—',
+                logo:    ''
+            },
+            teams: {
+                home: { name: (e.homeTeam || {}).name || '—', logo: '' },
+                away: { name: (e.awayTeam || {}).name || '—', logo: '' }
+            },
+            goals: {
+                home: ((e.homeScore || {}).current) ?? 0,
+                away: ((e.awayScore || {}).current) ?? 0,
+            },
+            _raw: e   // manter dados originais acessíveis
+        };
+    }
+
+    /* Buscar detalhes, incidents e odds de uma partida específica */
+    async function fetchMatchDetails(matchId) {
+        const [incRes, oddsRes] = await Promise.allSettled([
+            rapidGet(`/api/match/${matchId}/incidents`),
+            rapidGet(`/api/match/${matchId}/odds`)
+        ]);
+
+        const incidents = incRes.status === 'fulfilled' ? (incRes.value.incidents || []) : [];
+        const oddsData  = oddsRes.status === 'fulfilled' ? oddsRes.value : {};
+        return { incidents, oddsData };
+    }
+
+    /* Renderizar odds da footapi7 */
+    function parseFootapiOdds(oddsData, matchNorm) {
+        const markets = oddsData.markets || [];
+        const live1x2 = markets.find(m => m.marketGroup === '1X2' && m.isLive) || markets.find(m => m.marketGroup === '1X2');
+        const liveOU  = markets.find(m => (m.marketName || '').toLowerCase().includes('over') && m.isLive)
+                     || markets.find(m => (m.marketName || '').toLowerCase().includes('over'));
+
+        const getOdd = (mkt, label) => {
+            if (!mkt) return '—';
+            const c = (mkt.choices || []).find(ch => ch.name === label);
+            if (!c) return '—';
+            return frac2dec(c.fractionalValue) ?? '—';
+        };
+
+        document.getElementById('odd-home')?.textContent !== undefined &&
+            (document.getElementById('odd-home').textContent = getOdd(live1x2, '1'));
+        document.getElementById('odd-draw')?.textContent !== undefined &&
+            (document.getElementById('odd-draw').textContent = getOdd(live1x2, 'X'));
+        document.getElementById('odd-away')?.textContent !== undefined &&
+            (document.getElementById('odd-away').textContent = getOdd(live1x2, '2'));
+
+        // Over/Under — procurar mercados específicos
+        const ouMap = {
+            'o05': {mkt:'over/under 0.5', label:'Over'},
+            'u05': {mkt:'over/under 0.5', label:'Under'},
+            'o15': {mkt:'over/under 1.5', label:'Over'},
+            'u15': {mkt:'over/under 1.5', label:'Under'},
+            'o25': {mkt:'over/under 2.5', label:'Over'},
+            'u25': {mkt:'over/under 2.5', label:'Under'},
+        };
+        Object.entries(ouMap).forEach(([id, cfg]) => {
+            const m = markets.find(mk => (mk.marketName || '').toLowerCase().includes(cfg.mkt));
+            document.getElementById(`odd-${id}`).textContent = getOdd(m, cfg.label);
+        });
+
+        // Histórico de odds
+        const oHome = getOdd(live1x2, '1');
+        const oDraw = getOdd(live1x2, 'X');
+        const oAway = getOdd(live1x2, '2');
+        const now = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+        _oddsHistory.labels.push(now);
+        _oddsHistory.home.push(typeof oHome === 'number' ? oHome : null);
+        _oddsHistory.draw.push(typeof oDraw === 'number' ? oDraw : null);
+        _oddsHistory.away.push(typeof oAway === 'number' ? oAway : null);
+        if (_oddsHistory.labels.length > 20) {
+            ['labels','home','draw','away'].forEach(k => _oddsHistory[k].shift());
+        }
+        mkChart('chart-odds-history', 'line', {
+            labels: _oddsHistory.labels,
+            datasets: [
+                { label: 'Mandante',  data: _oddsHistory.home, borderColor: '#52ffb2', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
+                { label: 'Empate',    data: _oddsHistory.draw, borderColor: '#f0b429', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
+                { label: 'Visitante', data: _oddsHistory.away, borderColor: '#ff4d6a', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false }
+            ]
+        }, { plugins: { legend: { display: true, labels: { color: '#8aa39b', font: { size: 10 }, boxWidth: 12 } } } });
+    }
+
+
     function switchTab(id) {
         document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
@@ -3299,8 +3422,8 @@
 
     async function refreshDashboard() {
         try {
-            const data = await rapidGet('/footballlive');
-            _allLiveMatches = data.response || [];
+            const data = await rapidGet('/api/matches/live');
+        _allLiveMatches = (data.events || []).map(normalizeEvent);
             populateLeagueFilter(_allLiveMatches);
             applyDashFilters();
         } catch(err) {
@@ -3483,9 +3606,12 @@
         }
         if (statusEl) statusEl.textContent = 'Buscando odds…';
         try {
-            const data = await rapidGet(`/footballliveodds?fixture_id=${matchId}`);
-            const resp = data.response || data;
-            renderLiveOdds(resp);
+            const data = await rapidGet(`/api/match/${matchId}/odds`);
+            const home = document.getElementById('live-home-name')?.textContent || 'Mandante';
+            const away = document.getElementById('live-away-name')?.textContent || 'Visitante';
+            const nameEl = document.getElementById('odds-fixture-name');
+            if (nameEl) nameEl.textContent = `${home} x ${away}`;
+            parseFootapiOdds(data, {});
             if (statusEl) statusEl.textContent = `Atualizado às ${new Date().toLocaleTimeString('pt-BR')}`;
         } catch(err) {
             if (statusEl) statusEl.textContent = 'Erro: ' + err.message;
