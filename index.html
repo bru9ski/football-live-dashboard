@@ -3261,6 +3261,7 @@
         if (btn)  btn.classList.add('active');
         localStorage.setItem('activeTab', id);
         if (id === 'tab-dashboard') refreshDashboard();
+        if (id === 'tab-insights' && _allLiveMatches && _allLiveMatches.length) scanAllMatchesForAlerts();
     }
 
     /* ===============================================================
@@ -3547,7 +3548,7 @@
     /* ===============================================================
        PERSISTÊNCIA: localStorage para API Key e tab ativa
     =============================================================== */
-    (function restoreSession() {
+    document.addEventListener('DOMContentLoaded', function restoreSession() {
         const savedKey = localStorage.getItem('rapidapi_key');
         if (savedKey) {
             const el = document.getElementById('api-key');
@@ -3555,7 +3556,7 @@
         }
         const savedTab = localStorage.getItem('activeTab');
         if (savedTab && document.getElementById(savedTab)) switchTab(savedTab);
-    })();
+    });
 
     document.getElementById('api-key')?.addEventListener('input', function() {
         localStorage.setItem('rapidapi_key', this.value.trim());
@@ -3817,14 +3818,7 @@
         });
     }
 
-    // ── Scan automático ao entrar na tab insights ─────────────────
-    const _origSwitchTab = switchTab;
-    function switchTab(id) {
-        _origSwitchTab(id);
-        if (id === 'tab-insights' && _allLiveMatches.length) {
-            scanAllMatchesForAlerts();
-        }
-    }
+
 
 
 
@@ -3836,13 +3830,7 @@
         }
     }, 30000);
 
-    // Salvar tab ativa no localStorage ao trocar
-    document.querySelectorAll('.nav-tab').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabId = btn.id.replace('btn-', '');
-            localStorage.setItem('activeTab', tabId);
-        });
-    });
+
 
 </script>
 </body>
