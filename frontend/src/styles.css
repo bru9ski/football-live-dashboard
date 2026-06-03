@@ -2,19 +2,29 @@
    Football Live Dashboard — Dark Sports UI
    ============================================================ */
 
+/* --- Fonte Nautilus --- */
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap');
+/* Nautilus não está no Google Fonts; usando Rubik Dirt como alternativa
+   tipográfica de estilo náutico/bold. Se tiver o arquivo .woff2 da Nautilus,
+   substitua o @import pelo @font-face abaixo:
+
+@font-face {
+  font-family: 'Nautilus';
+  src: url('/fonts/Nautilus.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
 /* --- Reset & Base --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Paleta principal */
   --bg-base:        #0d0f13;
   --bg-surface:     #14171e;
   --bg-elevated:    #1b1f2a;
-  --bg-hover:       #20253200;
   --border:         rgba(255,255,255,0.07);
   --border-accent:  rgba(0,200,120,0.35);
-
-  /* Cores de destaque */
   --green:          #00c878;
   --green-dim:      rgba(0,200,120,0.12);
   --blue:           #4a9eff;
@@ -22,18 +32,15 @@
   --red:            #ff4757;
   --yellow:         #ffd32a;
   --orange:         #ff8c00;
-
-  /* Texto */
   --text-primary:   #f0f2f5;
   --text-secondary: #8892a4;
   --text-muted:     #4a5568;
-
-  /* Layout */
   --sidebar-w:      240px;
   --radius:         12px;
   --radius-sm:      8px;
   --transition:     0.18s ease;
   --shadow:         0 4px 24px rgba(0,0,0,0.5);
+  --font-logo:      'Rubik Dirt', 'Nautilus', fantasy;
 }
 
 html, body, #root {
@@ -82,9 +89,10 @@ ul, ol { list-style: none; }
 }
 .sidebar-logo-icon { font-size: 22px; }
 .sidebar-logo-text {
-  font-size: 18px;
+  font-family: var(--font-logo);
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   background: linear-gradient(90deg, var(--green), var(--blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -231,7 +239,6 @@ ul, ol { list-style: none; }
   50% { opacity: 0.5; transform: scale(0.85); }
 }
 
-/* Body com lista + detalhe lado a lado */
 .dashboard-body {
   display: flex;
   flex: 1;
@@ -255,7 +262,6 @@ ul, ol { list-style: none; }
   scrollbar-color: var(--bg-elevated) transparent;
 }
 
-/* Seções */
 .match-section { margin-bottom: 20px; }
 .match-section-title {
   font-size: 0.75rem;
@@ -307,7 +313,6 @@ ul, ol { list-style: none; }
   opacity: 0.65;
 }
 
-/* Animação de gol */
 .match-card--goal {
   animation: goal-flash 2.5s ease;
 }
@@ -479,7 +484,6 @@ ul, ol { list-style: none; }
   font-weight: 600;
 }
 
-/* Tabs */
 .details-tabs { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
 .tabs-header {
   display: flex;
@@ -501,7 +505,6 @@ ul, ol { list-style: none; }
   border-bottom-color: var(--green);
 }
 
-/* Stats Panel */
 .stats-panel {
   padding: 16px 18px;
   overflow-y: auto;
@@ -554,7 +557,6 @@ ul, ol { list-style: none; }
 .stat-bar-fill--home { background: var(--blue); }
 .stat-bar-fill--away { background: var(--orange); }
 
-/* Events panel */
 .events-panel {
   padding: 12px 18px;
   overflow-y: auto;

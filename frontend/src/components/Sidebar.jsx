@@ -22,7 +22,7 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-logo">
         <span className="sidebar-logo-icon">⚽</span>
-        <span className="sidebar-logo-text">LiveScore</span>
+        <span className="sidebar-logo-text">LveScore</span>
       </div>
 
       <nav className="sidebar-nav">
