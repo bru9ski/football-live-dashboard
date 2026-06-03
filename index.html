@@ -6,43 +6,44 @@
     <title>Handicap Pro // Precision Bankroll Control</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         /* ═══════════════════════════════════════════════════════════
            DESIGN TOKENS — Black Premium Edition
         ═══════════════════════════════════════════════════════════ */
         :root {
+            /* ── HandiCapPro Design Tokens (plan.md) ── */
             --bg:           #000000;
-            --bg-2:         #080808;
-            --surface-1:    #0d0d0d;
-            --surface-2:    #121212;
-            --surface-3:    #171717;
-            --surface-4:    #1c1c1c;
+            --bg-2:         #0b0b0b;
+            --surface-1:    #111111;
+            --surface-2:    #161616;
+            --surface-3:    #1c1c1c;
+            --surface-4:    #222222;
 
-            --border:       rgba(255,255,255,0.06);
-            --border-hi:    rgba(82,255,178,0.15);
-            --border-cyan:  rgba(61,214,255,0.12);
+            --border:       rgba(255,255,255,0.07);
+            --border-hi:    rgba(22,163,74,0.20);
+            --border-cyan:  rgba(255,255,255,0.04);
 
-            --text-primary: #f0f0f0;
-            --text-muted:   #6b7280;
-            --text-faint:   #374151;
+            --text-primary: #f2f2f2;
+            --text-muted:   #6b6b6b;
+            --text-faint:   #333333;
             --text-inverse: #000000;
 
-            --accent:       #52ffb2;
-            --accent-dim:   rgba(82,255,178,0.08);
-            --accent-glow:  rgba(82,255,178,0.18);
-            --cyan:         #3dd6ff;
-            --cyan-dim:     rgba(61,214,255,0.08);
-            --cyan-glow:    rgba(61,214,255,0.15);
-            --amber:        #f0b429;
-            --amber-dim:    rgba(240,180,41,0.10);
-            --red:          #ff4d6a;
-            --red-dim:      rgba(255,77,106,0.10);
-            --purple-sub:   rgba(130,80,255,0.06);
+            --accent:       #16a34a;
+            --accent-dim:   rgba(22,163,74,0.06);
+            --accent-glow:  rgba(22,163,74,0.14);
+            --cyan:         #6b6b6b;
+            --cyan-dim:     rgba(255,255,255,0.04);
+            --cyan-glow:    rgba(255,255,255,0.06);
+            --amber:        #f59e0b;
+            --amber-dim:    rgba(245,158,11,0.10);
+            --red:          #ef4444;
+            --red-dim:      rgba(239,68,68,0.10);
+            --purple-sub:   rgba(255,255,255,0.03);
 
-            --font-display: 'Orbitron', monospace;
+            --font-display: 'DM Sans', sans-serif;
             --font-body:    'Inter', sans-serif;
-            --font-mono:    'IBM Plex Mono', monospace;
+            --font-mono:    'JetBrains Mono', monospace;
 
             --text-xs:   clamp(0.65rem, 0.6rem  + 0.2vw,  0.75rem);
             --text-sm:   clamp(0.75rem, 0.7rem  + 0.2vw,  0.85rem);
@@ -104,8 +105,8 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(82,255,178,0.018) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(82,255,178,0.018) 1px, transparent 1px);
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
             background-size: 56px 56px;
             mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
             pointer-events: none;
@@ -119,7 +120,7 @@
             transform: translate(-50%, -50%);
             width: 700px;
             height: 700px;
-            background: radial-gradient(ellipse, rgba(82,255,178,0.045) 0%, transparent 65%);
+            background: radial-gradient(ellipse, rgba(22,163,74,0.03) 0%, transparent 65%);
             pointer-events: none;
         }
 
@@ -157,7 +158,7 @@
             font-family: var(--font-mono);
             font-size: 9px;
             letter-spacing: .1em;
-            color: rgba(82,255,178,0.22);
+            color: rgba(255,255,255,0.15);
             display: flex;
             flex-direction: column;
             gap: 7px;
@@ -165,18 +166,18 @@
             animation: fadeSlideIn 1.2s 0.6s both;
         }
         @media (max-width: 900px) { .lnd-data-strip { display: none; } }
-        .lnd-strip-label { color: rgba(82,255,178,0.14); margin-bottom: 4px; }
+        .lnd-strip-label { color: rgba(255,255,255,0.07); margin-bottom: 4px; }
         .lnd-strip-row { display: flex; justify-content: space-between; gap: 28px; }
-        .lnd-strip-val { color: rgba(82,255,178,0.4); }
+        .lnd-strip-val { color: rgba(255,255,255,0.3); }
         .lnd-strip-val.accent { color: var(--accent); }
         .lnd-strip-terminal {
             margin-top: 10px;
             padding-top: 10px;
-            border-top: 1px solid rgba(82,255,178,0.07);
+            border-top: 1px solid rgba(255,255,255,0.04);
             display: flex;
             flex-direction: column;
             gap: 4px;
-            color: rgba(82,255,178,0.15);
+            color: rgba(22,163,74,0.18);
             font-size: 8px;
         }
 
@@ -202,21 +203,21 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(82,255,178,0.15);
-            background: rgba(82,255,178,0.04);
+            border: 1px solid rgba(22,163,74,0.18);
+            background: rgba(22,163,74,0.03);
             border-radius: 999px;
             padding: 5px 16px;
             font-family: var(--font-mono);
             font-size: 10px;
             letter-spacing: .12em;
-            color: rgba(82,255,178,0.5);
+            color: rgba(255,255,255,0.35);
             text-transform: uppercase;
         }
         .lnd-pill-dot {
             width: 6px; height: 6px;
             border-radius: 50%;
             background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
+            box-shadow: none;
             animation: pulse 2s ease-in-out infinite;
         }
         @keyframes pulse {
@@ -236,7 +237,7 @@
             margin: 0;
             display: flex;
             align-items: center;
-            text-shadow: 0 0 80px rgba(82,255,178,0.12);
+            text-shadow: none;
         }
         .lnd-logo-hand { color: #fff; }
         .lnd-logo-cap  { color: #fff; }
@@ -245,7 +246,7 @@
             font-size: .68em;
             letter-spacing: .2em;
             margin-left: 6px;
-            text-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
         }
 
         /* ── Arrow-i ── */
@@ -259,12 +260,12 @@
         .lnd-arrow-i {
             width: clamp(10px, 1.5vw, 20px);
             height: clamp(16px, 2.5vw, 30px);
-            filter: drop-shadow(0 0 8px var(--accent));
+            filter: none;
             animation: arrowPulse 2.4s ease-in-out infinite;
         }
         @keyframes arrowPulse {
-            0%,100% { filter: drop-shadow(0 0 6px var(--accent)); opacity: 1; }
-            50%      { filter: drop-shadow(0 0 16px var(--accent)); opacity: .8; }
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0.85; }
         }
 
         /* ── Rule ── */
@@ -297,7 +298,7 @@
         .lnd-loader-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--accent), #a8ffdd);
+            background: var(--accent);
             border-radius: 999px;
             transition: width 0.15s linear;
             box-shadow: 0 0 12px var(--accent-glow);
@@ -341,11 +342,11 @@
             letter-spacing: .1em;
             cursor: pointer;
             transition: all var(--transition);
-            box-shadow: 0 0 30px rgba(82,255,178,0.2), 0 2px 12px rgba(0,0,0,0.5);
+            0 2px 8px rgba(0,0,0,0.5);
         }
         .lnd-enter-btn:hover {
             background: #fff;
-            box-shadow: 0 0 50px rgba(82,255,178,0.35), 0 4px 20px rgba(0,0,0,0.6);
+            0 4px 16px rgba(0,0,0,0.6);
             transform: translateY(-2px);
         }
         .lnd-enter-btn:active { transform: translateY(0); }
@@ -390,8 +391,8 @@
         /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(82,255,178,0.15); border-radius: 999px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(82,255,178,0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(22,163,74,0.18); border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(22,163,74,0.25); }
 
         /* ── Dashboard shell ── */
         #dashboard { display: none; flex-direction: column; min-height: 100dvh; }
@@ -603,7 +604,7 @@
             width: 6px; height: 6px;
             border-radius: 50%;
             background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
+            box-shadow: none;
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -885,7 +886,7 @@
             color: var(--text-primary);
         }
 
-        .kpi-value.green { color: var(--accent); text-shadow: 0 0 12px rgba(82,255,178,0.3); }
+        .kpi-value.green { color: var(--accent); text-shadow: 0 0 12px rgba(22,163,74,0.25); }
         .kpi-value.gold  { color: var(--amber);  text-shadow: 0 0 12px rgba(240,180,41,0.3); }
         .kpi-value.cyan  { color: var(--cyan);   text-shadow: 0 0 12px rgba(61,214,255,0.3); }
         .kpi-value.neutral { color: var(--text-primary); }
@@ -1092,7 +1093,7 @@
         }
 
         tbody tr.row-done {
-            background: rgba(82,255,178,0.04);
+            background: rgba(22,163,74,0.03);
         }
 
         tbody tr.row-done td {
@@ -1161,7 +1162,7 @@
         .chk-wrap input:checked ~ .chk-box {
             background: var(--accent-dim);
             border-color: var(--accent);
-            box-shadow: 0 0 8px var(--accent-glow);
+            box-shadow: none;
         }
 
         .chk-box svg {
@@ -2047,7 +2048,289 @@
         }
         .sub-tab.active { background: rgba(34,211,238,0.1); border-color: var(--border-cyan); color: var(--cyan); }
 
-</style>
+
+        /* ═══════════════════════════════════════════════════════════
+           APP SHELL — Sidebar Layout (plan.md)
+        ═══════════════════════════════════════════════════════════ */
+
+        /* ── Light mode overrides ── */
+        [data-theme="light"] {
+            --bg:       #fafafa;
+            --bg-2:     #f0f0f0;
+            --surface-1: #ffffff;
+            --surface-2: #f7f7f7;
+            --border:   rgba(0,0,0,0.08);
+            --border-hi: rgba(22,163,74,0.18);
+            --text-primary: #111111;
+            --text-muted:   #888888;
+            --text-faint:   #aaaaaa;
+        }
+
+        /* ── Dashboard overrides ── */
+        #dashboard { display: none; min-height: 100dvh; flex-direction: column; background: var(--bg); }
+        #dashboard.active { display: flex; animation: fadeSlideIn 0.25s ease; }
+
+        /* ── Header strip ── */
+        .app-header {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+        .header-logo { display: flex; align-items: center; gap: 8px; }
+        .header-logo-icon {
+            width: 24px; height: 24px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .header-logo-text {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .02em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 1px;
+        }
+        .logo-bolt-inline { display: inline-flex; align-items: center; }
+        .header-meta { display: flex; align-items: center; gap: 8px; }
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+        .live-dot-sm {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        /* ── App body ── */
+        .app-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* ── Sidebar ── */
+        .app-sidebar {
+            width: 220px;
+            flex-shrink: 0;
+            height: calc(100dvh - 48px);
+            position: sticky;
+            top: 48px;
+            background: var(--bg-2);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .app-sidebar::-webkit-scrollbar { width: 0; }
+
+        /* ── Sidebar nav ── */
+        .sidebar-nav {
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 9px 12px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-faint);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: all var(--transition);
+            border-left: 2px solid transparent;
+            position: relative;
+        }
+        .sidebar-item:hover {
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
+            border-left-color: transparent;
+        }
+        .sidebar-item.active {
+            color: var(--accent);
+            background: var(--accent-dim);
+            border-left-color: var(--accent);
+        }
+        .sidebar-item svg { flex-shrink: 0; }
+
+        /* ── Divider ── */
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 12px;
+        }
+
+        /* ── Util items ── */
+        .sidebar-utils {
+            padding: 8px 8px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .util-item { color: var(--text-faint); font-size: 13px; }
+        .util-item:hover { color: var(--text-muted); }
+        .danger-item:hover { color: var(--red) !important; background: rgba(239,68,68,0.05) !important; }
+
+        /* ── Sidebar panel (inline dropdowns) ── */
+        .sidebar-panel {
+            display: none;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 6px;
+            margin: 0 8px 4px;
+            border: 1px solid var(--border);
+            font-size: 12px;
+        }
+        .sidebar-panel.open { display: block; }
+        .sidebar-panel p { color: var(--text-muted); margin-top: 4px; font-size: 11px; line-height: 1.5; }
+        .sidebar-panel strong { color: var(--text-primary); font-weight: 600; }
+
+        /* ── Notification toggles ── */
+        .notif-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .notif-toggle-row:last-child { border-bottom: none; }
+        .toggle-sw { position: relative; display: inline-block; width: 28px; height: 16px; cursor: pointer; }
+        .toggle-sw input { opacity: 0; width: 0; height: 0; }
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: var(--border);
+            border-radius: 999px;
+            transition: background var(--transition);
+        }
+        .toggle-track::before {
+            content: '';
+            position: absolute;
+            width: 10px; height: 10px;
+            left: 3px; top: 3px;
+            background: var(--text-faint);
+            border-radius: 50%;
+            transition: all var(--transition);
+        }
+        .toggle-sw input:checked + .toggle-track { background: var(--accent); }
+        .toggle-sw input:checked + .toggle-track::before {
+            transform: translateX(12px);
+            background: #000;
+        }
+
+        /* ── Help items ── */
+        .help-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+        .help-item:last-child { border-bottom: none; }
+        .help-item strong { font-size: 11px; color: var(--text-primary); display: block; margin-bottom: 4px; }
+        .help-item p { display: none; }
+        .help-item.open p { display: block; }
+
+        /* ── Mini calendar ── */
+        .mini-cal {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .mini-cal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 11px;
+        }
+        .mini-cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+        }
+        .mini-cal-day {
+            padding: 3px 1px;
+            border-radius: 3px;
+        }
+        .mini-cal-day.today {
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+        }
+        .mini-cal-day.label { color: var(--text-faint); font-size: 9px; }
+
+        /* ── Main content ── */
+        .app-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px 32px;
+            background: var(--bg);
+        }
+        .app-main::-webkit-scrollbar { width: 3px; }
+        .app-main::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 999px; }
+
+        /* ── Mobile: bottom nav ── */
+        @media (max-width: 768px) {
+            .app-body { flex-direction: column-reverse; }
+            .app-sidebar {
+                width: 100%;
+                height: auto;
+                position: fixed;
+                bottom: 0; left: 0;
+                top: auto;
+                border-right: none;
+                border-top: 1px solid var(--border);
+                flex-direction: row;
+                z-index: 200;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+            .sidebar-nav {
+                flex-direction: row;
+                padding: 6px 4px;
+                flex: 1;
+                overflow-x: auto;
+            }
+            .sidebar-item span { display: none; }
+            .sidebar-item { padding: 8px; border-left: none; border-bottom: 2px solid transparent; }
+            .sidebar-item.active { border-left-color: transparent; border-bottom-color: var(--accent); }
+            .sidebar-divider { display: none; }
+            .sidebar-utils { display: none; }
+            .app-main { padding: 16px; padding-bottom: 80px; }
+        }
+
+        </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -2057,36 +2340,12 @@
 ================================================================ -->
 <section id="landing">
 
-    <!-- Grain noise overlay -->
-    <div class="lnd-grain"></div>
 
     <!-- Subtle grid -->
     <div class="lnd-grid"></div>
 
     <!-- Radial spotlight -->
     <div class="lnd-glow"></div>
-
-    <!-- Corner decorations -->
-    <div class="lnd-corner lnd-corner--tl"></div>
-    <div class="lnd-corner lnd-corner--tr"></div>
-    <div class="lnd-corner lnd-corner--bl"></div>
-    <div class="lnd-corner lnd-corner--br"></div>
-
-    <!-- Floating data strip (desktop) -->
-    <aside class="lnd-data-strip">
-        <div class="lnd-strip-label">// sys.analytics</div>
-        <div class="lnd-strip-row"><span>ROI_PROJ</span><span class="lnd-strip-val">+148.2%</span></div>
-        <div class="lnd-strip-row"><span>CYCLES</span><span class="lnd-strip-val">07/07</span></div>
-        <div class="lnd-strip-row"><span>ODD_AVG</span><span class="lnd-strip-val">1.50×</span></div>
-        <div class="lnd-strip-row"><span>BANKROLL</span><span class="lnd-strip-val accent">↑ 3.84×</span></div>
-        <div class="lnd-strip-row"><span>STATUS</span><span class="lnd-strip-val accent">ONLINE</span></div>
-        <div class="lnd-strip-row"><span>RISK</span><span class="lnd-strip-val">CTRL</span></div>
-        <div class="lnd-strip-terminal">
-            <span>> ENGINE PRIMED</span>
-            <span>> SIGNAL ACTIVE</span>
-            <span>> AWAITING INPUT_</span>
-        </div>
-    </aside>
 
     <!-- Hero content -->
     <div class="lnd-hero">
@@ -2102,9 +2361,8 @@
             <h1 class="lnd-logo">
                 <span class="lnd-logo-hand">Hand</span><!--
              --><span class="lnd-logo-i" aria-hidden="true">
-                    <svg class="lnd-arrow-i" viewBox="0 0 14 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="7" y1="22" x2="7" y2="4" stroke="#52ffb2" stroke-width="2.2" stroke-linecap="round"/>
-                        <polyline points="2,9 7,3 12,9" stroke="#52ffb2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg class="lnd-arrow-i" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="7,0 12,10 8.5,10 10,22 3,10 7,10 5,0" fill="#16a34a"/>
                     </svg>
                 </span><!--
              --><span class="lnd-logo-cap">Cap</span><!--
@@ -2155,58 +2413,131 @@
 ================================================================ -->
 <div id="dashboard">
 
-    <!-- Header -->
+    <!-- Header strip (48px) -->
     <header class="app-header">
         <div class="header-logo">
             <div class="header-logo-icon">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#52ffb2" stroke-width="2.5">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                <svg width="11" height="20" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="7,0 12,10 8.5,10 10,22 3,10 7,10 5,0" fill="#16a34a"/>
                 </svg>
             </div>
-            <span class="header-logo-text">HANDICAP<span> PRO</span></span>
+            <span class="header-logo-text">Handi<span class="logo-bolt-inline">
+                <svg width="9" height="16" viewBox="0 0 12 22" fill="none"><polygon points="7,0 12,10 8.5,10 10,22 3,10 7,10 5,0" fill="#16a34a"/></svg>
+            </span>CapPro</span>
         </div>
-
         <div class="header-meta">
-            <div class="header-status">Live Analytics</div>
-            <button class="btn-back" onclick="goBack()">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="19" y1="12" x2="5" y2="12"/>
-                    <polyline points="12 19 5 12 12 5"/>
-                </svg>
-                Menu
-            </button>
+            <div class="header-status">
+                <span class="live-dot-sm"></span>
+                <span id="header-tab-title">Banca</span>
+            </div>
         </div>
     </header>
 
-    <!-- Main -->
+    <!-- App body: sidebar + main -->
+    <div class="app-body">
+
+    <!-- Sidebar 220px -->
+    <aside class="app-sidebar" id="app-sidebar">
+
+        <!-- Nav tabs -->
+        <nav class="sidebar-nav">
+            <button class="sidebar-item active" onclick="switchTab('tab-banca')" id="btn-tab-banca" data-label="Banca">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                <span>Banca</span>
+            </button>
+            <button class="sidebar-item" onclick="switchTab('tab-live')" id="btn-tab-live" data-label="Live Match + AI">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 7.76a6 6 0 0 0 0 8.49"/><path d="M20.07 4.93a10 10 0 0 1 0 14.14"/><path d="M3.93 4.93a10 10 0 0 0 0 14.14"/>
+                </svg>
+                <span>Live Match + AI</span>
+            </button>
+            <button class="sidebar-item" onclick="switchTab('tab-dashboard')" id="btn-tab-dashboard" data-label="Dashboard">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                </svg>
+                <span>Dashboard</span>
+            </button>
+            <button class="sidebar-item" onclick="switchTab('tab-odds')" id="btn-tab-odds" data-label="Odds ao Vivo">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                <span>Odds ao Vivo</span>
+            </button>
+            <button class="sidebar-item" onclick="switchTab('tab-insights')" id="btn-tab-insights" data-label="Insights IA">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>Insights IA</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- Utility items -->
+        <div class="sidebar-utils">
+            <!-- Notificações -->
+            <button class="sidebar-item util-item" onclick="toggleSidebarPanel('panel-notif')" aria-label="Notificações">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span>Notificações</span>
+            </button>
+            <div class="sidebar-panel" id="panel-notif">
+                <div class="notif-toggle-row"><span>Gols</span><label class="toggle-sw"><input type="checkbox" id="notif-goals" checked onchange="saveNotifPrefs()"><span class="toggle-track"></span></label></div>
+                <div class="notif-toggle-row"><span>Cartões</span><label class="toggle-sw"><input type="checkbox" id="notif-cards" onchange="saveNotifPrefs()"><span class="toggle-track"></span></label></div>
+                <div class="notif-toggle-row"><span>Sinais IA</span><label class="toggle-sw"><input type="checkbox" id="notif-ai" checked onchange="saveNotifPrefs()"><span class="toggle-track"></span></label></div>
+                <div class="notif-toggle-row"><span>Início</span><label class="toggle-sw"><input type="checkbox" id="notif-start" onchange="saveNotifPrefs()"><span class="toggle-track"></span></label></div>
+            </div>
+
+            <!-- Tema -->
+            <button class="sidebar-item util-item" onclick="toggleTheme()" aria-label="Alternar tema" id="btn-theme">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon">
+                    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <span id="theme-label">Tema Escuro</span>
+            </button>
+
+            <!-- Ajuda -->
+            <button class="sidebar-item util-item" onclick="toggleSidebarPanel('panel-help')" aria-label="Ajuda">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>Ajuda</span>
+            </button>
+            <div class="sidebar-panel" id="panel-help">
+                <div class="help-item"><strong>Como usar a aba Banca?</strong><p>Insira sua banca inicial, odd alvo e número de dias. Clique em Gerar Ciclos para ver a projeção composta.</p></div>
+                <div class="help-item"><strong>O que é o sinal IA?</strong><p>Um score 0–100 calculado com xG, big chances, timing e equilíbrio do jogo. Acima de 55 com min ≥ 60 indica entrada.</p></div>
+                <div class="help-item"><strong>Como conectar à API?</strong><p>A chave RapidAPI já está configurada. Clique em Buscar partidas ao vivo para carregar dados reais do footapi7.</p></div>
+                <div class="help-item"><strong>O que é xG?</strong><p>Expected Goals: estimativa de gols esperados baseada em big chances e chutes no alvo. Proxy: bigChances × 0.35 + shotsOnTarget × 0.1.</p></div>
+                <div class="help-item"><strong>Os dados são em tempo real?</strong><p>Sim, via polling manual. Clique em Atualizar para obter os dados mais recentes da partida selecionada.</p></div>
+            </div>
+
+            <!-- Calendário -->
+            <button class="sidebar-item util-item" onclick="toggleSidebarPanel('panel-cal')" aria-label="Calendário">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Calendário</span>
+            </button>
+            <div class="sidebar-panel" id="panel-cal">
+                <div id="mini-calendar"></div>
+            </div>
+
+            <!-- Sair -->
+            <button class="sidebar-item util-item danger-item" onclick="goBack()" aria-label="Sair">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                <span>Sair</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main content -->
     <main class="app-main">
 
-<nav class="app-nav" role="tablist">
-    <button class="nav-tab active" onclick="switchTab('tab-banca')" id="btn-tab-banca">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Banca
-    </button>
-    <button class="nav-tab" onclick="switchTab('tab-live')" id="btn-tab-live">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Live Match
-    </button>
-    <button class="nav-tab" onclick="switchTab('tab-dashboard')" id="btn-tab-dashboard">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        Dashboard
-    </button>
-    <button class="nav-tab" onclick="switchTab('tab-odds')" id="btn-tab-odds">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Odds ao vivo
-    </button>
-    <button class="nav-tab" onclick="switchTab('tab-api')" id="btn-tab-api">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        API / Config
-    </button>
-    <button class="nav-tab" onclick="switchTab('tab-insights')" id="btn-tab-insights">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-        Insights IA
-    </button>
-</nav>
 
 <!-- ═══ TAB: BANCA ══════════════════════════════════════════════════════ -->
 <div id="tab-banca" class="page-view active">
@@ -2633,6 +2964,7 @@
 
 
 </main>
+    </div><!-- /app-body -->
 
     <!-- Footer status bar -->
     <footer class="app-footer">
@@ -3917,7 +4249,7 @@
         mkChart('chart-odds-history', 'line', {
             labels: _oddsHistory.labels,
             datasets: [
-                { label: 'Mandante',  data: _oddsHistory.home, borderColor: '#52ffb2', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
+                { label: 'Mandante',  data: _oddsHistory.home, borderColor: '#16a34a', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
                 { label: 'Empate',    data: _oddsHistory.draw, borderColor: '#f0b429', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
                 { label: 'Visitante', data: _oddsHistory.away, borderColor: '#ff4d6a', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false }
             ]
@@ -4077,7 +4409,7 @@
             datasets: [{
                 data: topScores.map(e => e[1]),
                 backgroundColor: 'rgba(82,255,178,0.25)',
-                borderColor: '#52ffb2',
+                borderColor: '#16a34a',
                 borderWidth: 1.5,
                 borderRadius: 4,
             }]
@@ -4096,12 +4428,12 @@
             datasets: [{
                 data: Object.values(ou),
                 backgroundColor: [
-                    'rgba(82,255,178,0.5)','rgba(255,77,106,0.5)',
-                    'rgba(82,255,178,0.4)','rgba(255,77,106,0.4)',
-                    'rgba(82,255,178,0.3)','rgba(255,77,106,0.3)',
+                    'rgba(255,255,255,0.35)','rgba(255,77,106,0.5)',
+                    'rgba(255,255,255,0.3)','rgba(255,77,106,0.4)',
+                    'rgba(22,163,74,0.25)','rgba(255,77,106,0.3)',
                 ],
                 borderColor: [
-                    '#52ffb2','#ff4d6a','#52ffb2','#ff4d6a','#52ffb2','#ff4d6a'
+                    '#16a34a','#ff4d6a','#16a34a','#ff4d6a','#16a34a','#ff4d6a'
                 ],
                 borderWidth: 1.5,
                 borderRadius: 4,
@@ -4214,7 +4546,7 @@
         mkChart('chart-odds-history', 'line', {
             labels: _oddsHistory.labels,
             datasets: [
-                { label: 'Mandante', data: _oddsHistory.home, borderColor: '#52ffb2', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
+                { label: 'Mandante', data: _oddsHistory.home, borderColor: '#16a34a', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
                 { label: 'Empate',   data: _oddsHistory.draw, borderColor: '#f0b429', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false },
                 { label: 'Visitante',data: _oddsHistory.away, borderColor: '#ff4d6a', borderWidth: 1.5, pointRadius: 3, tension: 0.3, fill: false }
             ]
@@ -4546,6 +4878,115 @@
             }, step.at);
         });
     })();
+
+
+    /* ═══════════════════════ SIDEBAR FUNCTIONS ═══════════════════════ */
+
+    // Override switchTab para atualizar sidebar + header title
+    const _origSwitchTab = window.switchTab;
+    function switchTab(id) {
+        // Remove active de todos os tabs
+        document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.sidebar-item:not(.util-item)').forEach(b => b.classList.remove('active'));
+        // Ativa o target
+        const page = document.getElementById(id);
+        if (page) page.classList.add('active');
+        const btn = document.getElementById('btn-' + id);
+        if (btn) {
+            btn.classList.add('active');
+            // Atualiza header title
+            const label = btn.getAttribute('data-label') || '';
+            const headerTitle = document.getElementById('header-tab-title');
+            if (headerTitle) headerTitle.textContent = label;
+        }
+    }
+
+    // Sidebar panel toggle
+    function toggleSidebarPanel(id) {
+        const panel = document.getElementById(id);
+        if (!panel) return;
+        const isOpen = panel.classList.contains('open');
+        document.querySelectorAll('.sidebar-panel').forEach(p => p.classList.remove('open'));
+        if (!isOpen) panel.classList.add('open');
+    }
+
+    // Theme toggle
+    function toggleTheme() {
+        const root = document.documentElement;
+        const isLight = root.getAttribute('data-theme') === 'light';
+        root.setAttribute('data-theme', isLight ? 'dark' : 'light');
+        const label = document.getElementById('theme-label');
+        if (label) label.textContent = isLight ? 'Tema Escuro' : 'Tema Claro';
+        const icon = document.getElementById('theme-icon');
+        if (icon) {
+            icon.innerHTML = isLight
+                ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+                : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+        }
+        localStorage.setItem('hcp-theme', isLight ? 'dark' : 'light');
+    }
+
+    // Notif prefs
+    function saveNotifPrefs() {
+        const prefs = {
+            goals: document.getElementById('notif-goals')?.checked,
+            cards: document.getElementById('notif-cards')?.checked,
+            ai:    document.getElementById('notif-ai')?.checked,
+            start: document.getElementById('notif-start')?.checked,
+        };
+        localStorage.setItem('hcp-notif', JSON.stringify(prefs));
+    }
+    function loadNotifPrefs() {
+        try {
+            const prefs = JSON.parse(localStorage.getItem('hcp-notif') || '{}');
+            if (prefs.goals !== undefined) document.getElementById('notif-goals').checked = prefs.goals;
+            if (prefs.ai !== undefined) document.getElementById('notif-ai').checked = prefs.ai;
+            if (prefs.cards !== undefined) document.getElementById('notif-cards').checked = prefs.cards;
+            if (prefs.start !== undefined) document.getElementById('notif-start').checked = prefs.start;
+        } catch {}
+    }
+
+    // Help accordion
+    document.querySelectorAll('.help-item').forEach(item => {
+        item.addEventListener('click', () => item.classList.toggle('open'));
+    });
+
+    // Mini calendar
+    function renderMiniCal() {
+        const container = document.getElementById('mini-calendar');
+        if (!container) return;
+        const now = new Date();
+        const y = now.getFullYear(), m = now.getMonth();
+        const firstDay = new Date(y, m, 1).getDay();
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+        const months = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+        let html = '<div class="mini-cal"><div class="mini-cal-header"><span>' + months[m] + ' ' + y + '</span></div><div class="mini-cal-grid">';
+        ['D','S','T','Q','Q','S','S'].forEach(d => html += '<div class="mini-cal-day label">' + d + '</div>');
+        for (let i = 0; i < firstDay; i++) html += '<div class="mini-cal-day"></div>';
+        for (let d = 1; d <= daysInMonth; d++) {
+            const isToday = d === now.getDate();
+            html += '<div class="mini-cal-day' + (isToday ? ' today' : '') + '">' + d + '</div>';
+        }
+        html += '</div></div>';
+        container.innerHTML = html;
+    }
+    renderMiniCal();
+
+    // Load saved theme on start
+    (function() {
+        const saved = localStorage.getItem('hcp-theme');
+        if (saved === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            const label = document.getElementById('theme-label');
+            if (label) label.textContent = 'Tema Claro';
+        }
+    })();
+
+    // Load notif prefs on start
+    loadNotifPrefs();
+
+    // Init: activate first tab
+    switchTab('tab-banca');
 
 </script>
 </body>
