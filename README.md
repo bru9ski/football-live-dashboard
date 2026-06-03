@@ -1,24 +1,26 @@
-# Football Live Dashboard
+# ⚽ Football Live Dashboard v2
 
-Dashboard interativo premium para análise esportiva ao vivo. Interface minimalista com fundo preto, construída com **React + FastAPI**.
+Dashboard de futebol ao vivo com **React + FastAPI**, WebSockets, mock engine e UI dark no estilo SofaScore.
 
 ## Stack
 
-- **Frontend**: React 18 + Vite
-- **Backend**: Python FastAPI
-- **Estilo**: CSS puro (modular por camadas)
-- **Persistência**: JSON (backend) + localStorage (frontend)
+| Camada | Tecnologia |
+|---|---|
+| Frontend | React 18 + Vite |
+| Backend | Python + FastAPI |
+| Comunicação | WebSocket nativo (`/ws/live`) + fallback polling |
+| Dados | Mock engine dinâmico (substituível por API real) |
+| Estilo | CSS puro (sem Tailwind/Material UI) |
 
-## Como rodar localmente
+## Como rodar
 
 ### Backend
 
 ```bash
 cd backend
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn app:app --reload --host 0.0.0.0 --port 8000
+uvicorn main:app --reload --port 8000
 ```
 
 ### Frontend
@@ -27,41 +29,55 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 cd frontend
 npm install
 npm run dev
+# → http://localhost:5173
 ```
 
-Acesse `http://localhost:5173` com o backend rodando em `http://localhost:8000`.
+## Funcionalidades
+
+- 🔴 Indicador de jogo ao vivo com bolinha piscando
+- ⚽ Animação CSS de gol (flash verde no card e no placar)
+- 📊 Estatísticas em barras duplas animadas
+- 📅 Cronologia de eventos por jogo
+- 🔌 WebSocket com reconexão automática e fallback para polling
+- 📱 Responsivo (sidebar recolhida em tablet/mobile)
+- 🔄 Substituível por API real (API-Football, SportMonks etc.)
 
 ## Estrutura
 
 ```
 football-live-dashboard/
 ├── backend/
-│   ├── app.py          # FastAPI + rotas REST
-│   ├── models.py       # Pydantic models
-│   ├── storage.py      # JSON persistence
-│   ├── requirements.txt
-│   └── data/           # Dados em JSON (criado automaticamente)
+│   ├── main.py           # FastAPI + Mock Engine + WebSocket
+│   └── requirements.txt
 └── frontend/
     ├── index.html
     ├── package.json
     ├── vite.config.mts
     └── src/
-        ├── App.jsx
-        ├── api/client.js
-        ├── context/ThemeContext.jsx
-        ├── components/  # Layout, Sidebar, Topbar, Cards, Modal...
-        ├── pages/       # Landing, Dashboard, Statistics, Alerts, History, Settings
-        └── styles/      # globals, theme, layout, components
+        ├── main.jsx
+        ├── App.jsx           # Estado global + WebSocket
+        ├── styles.css        # Dark sports UI
+        └── components/
+            ├── Sidebar.jsx
+            ├── Dashboard.jsx
+            ├── MatchCard.jsx
+            └── MatchDetails.jsx
 ```
 
-## Funcionalidades
+## Substituindo pelo API-Football
 
-- Landing com animação e loading premium
-- Sidebar fixa no desktop, drawer no mobile
-- Dashboard com métricas, destaque ao vivo e CRUD de registros
-- Estatísticas por categoria e severidade
-- Página de alertas filtrada
-- Histórico cronológico
-- Configurações: tema claro/escuro, notificações, modo compacto, limpar dados
-- Comunicação frontend ↔ backend via Axios
-- Persistência dupla: localStorage + JSON via API
+No `main.py`, na função `get_matches()`, substitua `_matches` pela chamada:
+
+```python
+# Exemplo com httpx (pip install httpx)
+import httpx
+
+async def fetch_real_matches():
+    async with httpx.AsyncClient() as client:
+        r = await client.get(
+            "https://v3.football.api-sports.io/fixtures",
+            headers={"x-apisports-key": "SEU_TOKEN"},
+            params={"date": datetime.today().strftime("%Y-%m-%d"), "live": "all"}
+        )
+    return r.json()["response"]
+```
