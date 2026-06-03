@@ -15,14 +15,57 @@ const MENU = [
   { id: 'settings', label: 'Configurações', icon: '⚙️' },
 ];
 
+// Raio verde com seta pra cima — SVG inline posicionado como superscript após o 'd'
+const BoltArrow = () => (
+  <svg
+    className="logo-bolt"
+    viewBox="0 0 14 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    {/* Seta pra cima */}
+    <path
+      d="M7 1 L7 11"
+      stroke="#00c878"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <path
+      d="M3.5 4.5 L7 1 L10.5 4.5"
+      stroke="#00c878"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    {/* Raio */}
+    <path
+      d="M8.5 10 L5 15.5 H8 L5.5 19 L11 13 H7.8 L10.5 10 Z"
+      fill="#00c878"
+      opacity="0.92"
+    />
+  </svg>
+);
+
 export default function Sidebar() {
   const [active, setActive] = useState('today');
 
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <span className="sidebar-logo-icon">⚽</span>
-        <span className="sidebar-logo-text">LveScore</span>
+        <div className="sidebar-logo-lockup">
+          <span className="sidebar-logo-text">
+            {/* Hand */}
+            <span className="logo-part logo-hand">Hand</span>
+            {/* cap — o raio fica no topo, logo após o 'd' de 'cap' */}
+            <span className="logo-part logo-cap">
+              cap
+              <BoltArrow />
+            </span>
+            {/* PRO */}
+            <span className="logo-part logo-pro">PRO</span>
+          </span>
+        </div>
       </div>
 
       <nav className="sidebar-nav">

@@ -1,0 +1,61 @@
+/* ============================================================
+   HandcapPRO — Logo lockup
+   ============================================================ */
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  padding: 20px 16px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo-lockup {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-logo-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  font-family: var(--font-logo);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* 'Hand' — branco puro */
+.logo-hand {
+  color: #f0f2f5;
+}
+
+/* 'cap' + bolt — inline-flex para alinhar o SVG */
+.logo-cap {
+  color: #f0f2f5;
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start; /* ancora o bolt no topo */
+}
+
+/* 'PRO' — verde em destaque */
+.logo-pro {
+  color: #00c878;
+  letter-spacing: 0.06em;
+  font-size: 0.82em;
+  align-self: flex-end;   /* senta na baseline junto com o restante */
+  margin-left: 1px;
+}
+
+/* SVG do raio + seta — superscript após o 'd' */
+.logo-bolt {
+  width: 10px;
+  height: 14px;
+  margin-left: 1px;
+  /* sobe o bolt para ficar no topo da letra */
+  margin-top: -10px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(0, 200, 120, 0.7));
+}
