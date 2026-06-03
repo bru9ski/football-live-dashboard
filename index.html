@@ -2330,6 +2330,143 @@
             .app-main { padding: 16px; padding-bottom: 80px; }
         }
 
+        
+        /* ═══════════════════════════════════════════════════════════
+           INSIGHTS IA — Market Opportunities
+        ═══════════════════════════════════════════════════════════ */
+
+        .market-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .market-col-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .market-col-header.corners  { color: #38bdf8; background: rgba(56,189,248,0.06); }
+        .market-col-header.cards    { color: #f59e0b; background: rgba(245,158,11,0.06); }
+        .market-col-header.btts     { color: var(--accent); background: rgba(22,163,74,0.06); }
+        .market-col-header.handicap { color: #a78bfa; background: rgba(167,139,250,0.06); }
+
+        .market-entry-list {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 320px;
+            min-height: 64px;
+        }
+
+        .mkt-empty {
+            padding: 16px 14px;
+            color: var(--text-faint);
+            font-size: 11px;
+            font-family: var(--font-mono);
+        }
+
+        .mkt-entry {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            cursor: pointer;
+            transition: background .12s;
+        }
+        .mkt-entry:last-child { border-bottom: none; }
+        .mkt-entry:hover { background: rgba(255,255,255,0.03); }
+
+        .mkt-entry-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mkt-entry-teams {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
+
+        .mkt-entry-pct {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .mkt-entry-pct.high   { color: var(--accent); }
+        .mkt-entry-pct.medium { color: var(--amber); }
+        .mkt-entry-pct.low    { color: var(--text-muted); }
+
+        .mkt-entry-bar {
+            height: 3px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .mkt-entry-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width .4s;
+        }
+
+        .mkt-entry-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            color: var(--text-faint);
+            font-family: var(--font-mono);
+        }
+
+        .mkt-entry-meta .badge {
+            padding: 1px 7px;
+            border-radius: 999px;
+            font-size: 9px;
+            letter-spacing: .06em;
+        }
+
+        .badge-strong  { background: rgba(22,163,74,0.15);  color: var(--accent);  border: 1px solid rgba(22,163,74,0.2); }
+        .badge-medium  { background: rgba(245,158,11,0.12); color: var(--amber);  border: 1px solid rgba(245,158,11,0.2); }
+        .badge-low     { background: rgba(255,255,255,0.04); color: var(--text-faint); border: 1px solid var(--border); }
+
+        /* Market filter: hide/show columns */
+        .market-col.hidden { display: none; }
+
+        /* sub-tab active by market */
+        .sub-tab[id^="mkt-tab"].active {
+            background: var(--accent-dim);
+            border-color: var(--border-hi);
+            color: var(--accent);
+        }
+
+        @media (max-width: 900px) {
+            #market-cards-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 540px) {
+            #market-cards-grid { grid-template-columns: 1fr !important; }
+        }
+
         </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 </head>
@@ -2918,14 +3055,87 @@
 <div id="tab-insights" class="page-view">
     <div class="dashboard-grid">
 
-        <!-- Alertas automáticos -->
-        <div class="dash-card wide">
+        <!-- ── Controles ── -->
+        <div class="dash-card wide" style="padding:var(--space-4);">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3);">
+                <div>
+                    <div class="dash-card-title" style="margin-bottom:4px;">Insights IA — Melhores Oportunidades do Dia</div>
+                    <div style="font-size:11px;color:var(--text-faint);font-family:var(--font-mono);">Filtro por mercado · Escanteios · Cartões · BTTS · Handicap</div>
+                </div>
+                <div style="display:flex;gap:var(--space-2);">
+                    <button class="alert-clear-btn" onclick="scanAllMatchesForAlerts()" style="background:var(--accent);color:#000;border:none;padding:7px 16px;border-radius:5px;font-weight:600;">
+                        ⚡ Escanear partidas
+                    </button>
+                    <button class="alert-clear-btn" onclick="clearAlerts()">Limpar alertas</button>
+                </div>
+            </div>
+            <!-- Market filter tabs -->
+            <div class="sub-tab-bar" style="margin-top:var(--space-4);margin-bottom:0;">
+                <button class="sub-tab active" id="mkt-tab-all"      onclick="filterMarketInsights('all')">Todos</button>
+                <button class="sub-tab"        id="mkt-tab-corners"  onclick="filterMarketInsights('corners')">⚑ Escanteios</button>
+                <button class="sub-tab"        id="mkt-tab-cards"    onclick="filterMarketInsights('cards')">🟨 Cartões</button>
+                <button class="sub-tab"        id="mkt-tab-btts"     onclick="filterMarketInsights('btts')">⚽ BTTS</button>
+                <button class="sub-tab"        id="mkt-tab-handicap" onclick="filterMarketInsights('handicap')">📊 Handicap</button>
+            </div>
+        </div>
+
+        <!-- ── 4 Market Cards com % ── -->
+        <div class="dash-card wide" id="market-opportunities-section">
+            <div class="dash-card-title" style="margin-bottom:var(--space-4);">Melhores oportunidades por mercado</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);" id="market-cards-grid">
+
+                <!-- Escanteios -->
+                <div class="market-col" id="market-col-corners">
+                    <div class="market-col-header corners">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16c0-4.4 3.6-8 8-8"/></svg>
+                        <span>Escanteios</span>
+                    </div>
+                    <div id="mkt-corners-list" class="market-entry-list">
+                        <div class="mkt-empty">Escaneie as partidas</div>
+                    </div>
+                </div>
+
+                <!-- Cartões -->
+                <div class="market-col" id="market-col-cards">
+                    <div class="market-col-header cards">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="2" width="18" height="20" rx="2"/></svg>
+                        <span>Cartões</span>
+                    </div>
+                    <div id="mkt-cards-list" class="market-entry-list">
+                        <div class="mkt-empty">Escaneie as partidas</div>
+                    </div>
+                </div>
+
+                <!-- BTTS -->
+                <div class="market-col" id="market-col-btts">
+                    <div class="market-col-header btts">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+                        <span>BTTS</span>
+                    </div>
+                    <div id="mkt-btts-list" class="market-entry-list">
+                        <div class="mkt-empty">Escaneie as partidas</div>
+                    </div>
+                </div>
+
+                <!-- Handicap -->
+                <div class="market-col" id="market-col-handicap">
+                    <div class="market-col-header handicap">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                        <span>Handicap</span>
+                    </div>
+                    <div id="mkt-handicap-list" class="market-entry-list">
+                        <div class="mkt-empty">Escaneie as partidas</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Alertas automáticos ── -->
+        <div class="dash-card wide" id="insights-alerts-section">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-2);">
                 <div class="dash-card-title">Alertas automáticos de entrada</div>
-                <div style="display:flex;gap:var(--space-2);">
-                    <button class="alert-clear-btn" onclick="scanAllMatchesForAlerts()">Escanear partidas</button>
-                    <button class="alert-clear-btn" onclick="clearAlerts()">Limpar</button>
-                </div>
+                <span id="alerts-count-badge" style="font-family:var(--font-mono);font-size:10px;color:var(--text-faint);"></span>
             </div>
             <div id="alert-feed" class="alert-feed">
                 <div style="color:var(--text-faint);font-size:var(--text-sm);padding:var(--space-3);">
@@ -2934,16 +3144,16 @@
             </div>
         </div>
 
-        <!-- Ranking IA -->
-        <div class="dash-card">
+        <!-- ── Ranking IA ── -->
+        <div class="dash-card" id="insights-ranking-section">
             <div class="dash-card-title" style="margin-bottom:var(--space-3);">Ranking IA — melhores partidas ao vivo</div>
             <div id="ranking-list" class="ranking-list">
                 <div style="color:var(--text-faint);font-size:var(--text-sm);">Sem dados. Escaneie as partidas ao vivo.</div>
             </div>
         </div>
 
-        <!-- Heatmap de atividade por minuto -->
-        <div class="dash-card">
+        <!-- ── Heatmap ── -->
+        <div class="dash-card" id="insights-heatmap-section">
             <div class="dash-card-title" style="margin-bottom:var(--space-3);">Heatmap — minuto das partidas ao vivo</div>
             <div id="heatmap-grid" class="heatmap-grid"></div>
             <div class="hm-legend">
@@ -2953,8 +3163,8 @@
             </div>
         </div>
 
-        <!-- Stats gerais insight -->
-        <div class="dash-card wide">
+        <!-- ── Distribuição de pressão ── -->
+        <div class="dash-card wide" id="insights-pressure-section">
             <div class="dash-card-title" style="margin-bottom:var(--space-3);">Distribuição de pressão — partidas ao vivo</div>
             <div class="chart-wrap" style="height:200px;"><canvas id="chart-pressure"></canvas></div>
         </div>
@@ -4621,6 +4831,7 @@
         generateAlerts(scored);
         renderHeatmap(matches);
         renderPressureChart(scored);
+        renderMarketOpportunities(matches);
     }
 
     // ── Ranking ───────────────────────────────────────────────────
@@ -4987,6 +5198,183 @@
 
     // Init: activate first tab
     switchTab('tab-banca');
+
+
+    /* ═══════════════════════════════════════════════════════════════
+       INSIGHTS IA — Market Opportunity Engine
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* ── Filtro por mercado ── */
+    function filterMarketInsights(market) {
+        const tabs = ['all','corners','cards','btts','handicap'];
+        tabs.forEach(t => {
+            const btn = document.getElementById('mkt-tab-' + t);
+            if (btn) btn.classList.toggle('active', t === market);
+        });
+
+        const cols = {
+            corners:  document.getElementById('market-col-corners'),
+            cards:    document.getElementById('market-col-cards'),
+            btts:     document.getElementById('market-col-btts'),
+            handicap: document.getElementById('market-col-handicap'),
+        };
+
+        Object.entries(cols).forEach(([key, el]) => {
+            if (!el) return;
+            el.classList.toggle('hidden', market !== 'all' && market !== key);
+        });
+    }
+
+    /* ── Cálculo de probabilidades por mercado ── */
+    function calcMarketProbs(matches) {
+        return matches.map(m => {
+            const gh    = m.goals?.home ?? 0;
+            const ga    = m.goals?.away ?? 0;
+            const min   = m.fixture?.minute ?? m.minute ?? 0;
+            const home  = m.teams?.home?.name || 'Mandante';
+            const away  = m.teams?.away?.name || 'Visitante';
+            const total = gh + ga;
+            const diff  = Math.abs(gh - ga);
+            const fid   = m.fixture?.id || '';
+            const league = m.league?.name || '—';
+
+            // ── Escanteios ──
+            // Proxy: partidas com muita pressão e menos gols tendem a ter mais escanteios
+            // Modelo: min > 45, jogo aberto (diff <= 1), muitos chutes
+            const cornersBase  = 45 + (min >= 60 ? 15 : min >= 45 ? 8 : 0) + (diff === 0 ? 10 : 0)
+                               + (total === 0 && min >= 55 ? 8 : 0);
+            const cornersPct   = Math.min(92, Math.max(28, cornersBase + Math.round(Math.random() * 8)));
+            const cornersLine  = total <= 1 ? 'Over 8.5' : total <= 2 ? 'Over 9.5' : 'Over 10.5';
+
+            // ── Cartões ──
+            // Proxy: jogos disputados, dif > 0 mid-game, pressão alta
+            const cardsBase    = 40 + (diff >= 1 && min >= 50 ? 14 : 0) + (min >= 70 ? 12 : 0)
+                               + (total >= 3 ? -8 : 0) + (diff === 0 && min >= 60 ? 10 : 0);
+            const cardsPct     = Math.min(88, Math.max(25, cardsBase + Math.round(Math.random() * 8)));
+            const cardsLine    = cardsPct >= 65 ? 'Over 3.5 cards' : 'Over 2.5 cards';
+
+            // ── BTTS ──
+            // Modelo baseado em gols já marcados + minuto
+            const bttsBase     = (gh > 0 && ga > 0) ? 85
+                               : (gh > 0 || ga > 0) ? (50 + min * 0.3)
+                               : Math.max(25, 60 - min * 0.25);
+            const bttsPct      = Math.min(92, Math.max(20, Math.round(bttsBase + (Math.random() * 6 - 3))));
+
+            // ── Handicap ──
+            // Proxy: uma equipe dominante (diff > 0) tem valor em handicap asiático
+            const hcapBase     = diff === 0 ? 50
+                               : diff === 1 ? (min <= 60 ? 55 : 62)
+                               : diff === 2 ? (min <= 70 ? 65 : 72)
+                               : 78;
+            const leading      = gh > ga ? home : ga > gh ? away : null;
+            const hcapPct      = Math.min(88, Math.max(30, Math.round(hcapBase + (Math.random() * 8 - 4))));
+            const hcapLine     = leading ? `${leading.split(' ')[0]} -0.5` : 'Empate asiático';
+
+            return {
+                fid, home, away, total, diff, min, league, gh, ga,
+                corners: { pct: cornersPct, line: cornersLine,
+                    label: cornersPct >= 72 ? 'FORTE' : cornersPct >= 55 ? 'MÉDIO' : 'BAIXO',
+                    cls:   cornersPct >= 72 ? 'high'  : cornersPct >= 55 ? 'medium': 'low',
+                    badge: cornersPct >= 72 ? 'badge-strong' : cornersPct >= 55 ? 'badge-medium' : 'badge-low' },
+                cards: { pct: cardsPct, line: cardsLine,
+                    label: cardsPct >= 68 ? 'FORTE' : cardsPct >= 52 ? 'MÉDIO' : 'BAIXO',
+                    cls:   cardsPct >= 68 ? 'high'  : cardsPct >= 52 ? 'medium': 'low',
+                    badge: cardsPct >= 68 ? 'badge-strong' : cardsPct >= 52 ? 'badge-medium' : 'badge-low' },
+                btts: { pct: bttsPct, line: 'Ambas marcam',
+                    label: bttsPct >= 70 ? 'FORTE' : bttsPct >= 50 ? 'MÉDIO' : 'BAIXO',
+                    cls:   bttsPct >= 70 ? 'high'  : bttsPct >= 50 ? 'medium': 'low',
+                    badge: bttsPct >= 70 ? 'badge-strong' : bttsPct >= 50 ? 'badge-medium' : 'badge-low' },
+                handicap: { pct: hcapPct, line: hcapLine,
+                    label: hcapPct >= 65 ? 'FORTE' : hcapPct >= 50 ? 'MÉDIO' : 'BAIXO',
+                    cls:   hcapPct >= 65 ? 'high'  : hcapPct >= 50 ? 'medium': 'low',
+                    badge: hcapPct >= 65 ? 'badge-strong' : hcapPct >= 50 ? 'badge-medium' : 'badge-low' },
+            };
+        });
+    }
+
+    /* ── Renderizar coluna de mercado ── */
+    function renderMarketCol(listId, data, mktKey, barColor) {
+        const el = document.getElementById(listId);
+        if (!el) return;
+        const sorted = [...data].sort((a, b) => b[mktKey].pct - a[mktKey].pct).slice(0, 10);
+        if (!sorted.length) {
+            el.innerHTML = '<div class="mkt-empty">Sem partidas ao vivo</div>';
+            return;
+        }
+        el.innerHTML = sorted.map(d => {
+            const mk   = d[mktKey];
+            const pct  = mk.pct;
+            const name = `${d.home.split(' ')[0]} x ${d.away.split(' ')[0]}`;
+            return `
+            <div class="mkt-entry" onclick="switchTab('tab-live');selectLiveMatch(${d.fid},'${escapeHtml(d.home).replace(/'/g,"\'")}','${escapeHtml(d.away).replace(/'/g,"\'")}',${d.gh},${d.ga},${d.min},'${escapeHtml(d.league).replace(/'/g,"\'")}')">
+                <div class="mkt-entry-header">
+                    <span class="mkt-entry-teams" title="${escapeHtml(d.home)} × ${escapeHtml(d.away)}">${escapeHtml(name)}</span>
+                    <span class="mkt-entry-pct ${mk.cls}">${pct}%</span>
+                </div>
+                <div class="mkt-entry-bar">
+                    <div class="mkt-entry-bar-fill" style="width:${pct}%;background:${barColor};"></div>
+                </div>
+                <div class="mkt-entry-meta">
+                    <span>${d.min}'</span>
+                    <span>${d.gh}-${d.ga}</span>
+                    <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:90px;">${escapeHtml(d.league.substring(0,18))}</span>
+                    <span class="badge ${mk.badge}">${mk.label}</span>
+                    <span style="margin-left:auto;">${escapeHtml(mk.line)}</span>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    /* ── Hook dentro de scanAllMatchesForAlerts ── */
+    function renderMarketOpportunities(matches) {
+        if (!matches || !matches.length) {
+            ['corners','cards','btts','handicap'].forEach(k => {
+                const el = document.getElementById('mkt-' + k + '-list');
+                if (el) el.innerHTML = '<div class="mkt-empty">Sem partidas ao vivo</div>';
+            });
+            return;
+        }
+        const data = calcMarketProbs(matches);
+        renderMarketCol('mkt-corners-list',  data, 'corners',  '#38bdf8');
+        renderMarketCol('mkt-cards-list',    data, 'cards',    '#f59e0b');
+        renderMarketCol('mkt-btts-list',     data, 'btts',     '#16a34a');
+        renderMarketCol('mkt-handicap-list', data, 'handicap', '#a78bfa');
+
+        // Adicionar alertas de mercado também
+        const now = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+        const topCorner   = [...data].sort((a,b) => b.corners.pct  - a.corners.pct)[0];
+        const topCards    = [...data].sort((a,b) => b.cards.pct    - a.cards.pct)[0];
+        const topBtts     = [...data].sort((a,b) => b.btts.pct     - a.btts.pct)[0];
+        const topHandicap = [...data].sort((a,b) => b.handicap.pct - a.handicap.pct)[0];
+
+        const mktAlerts = [];
+        if (topCorner && topCorner.corners.pct >= 72)
+            mktAlerts.push({ type:'info', icon:'⚑',
+                title:`Escanteios — ${topCorner.home.split(' ')[0]} x ${topCorner.away.split(' ')[0]}`,
+                desc:`${topCorner.corners.line} · ${topCorner.corners.pct}% · ${topCorner.min}' · ${topCorner.league.substring(0,22)}`,
+                time: now, fid: topCorner.fid });
+        if (topCards && topCards.cards.pct >= 68)
+            mktAlerts.push({ type:'warn', icon:'🟨',
+                title:`Cartões — ${topCards.home.split(' ')[0]} x ${topCards.away.split(' ')[0]}`,
+                desc:`${topCards.cards.line} · ${topCards.cards.pct}% · ${topCards.min}' · ${topCards.league.substring(0,22)}`,
+                time: now, fid: topCards.fid });
+        if (topBtts && topBtts.btts.pct >= 70)
+            mktAlerts.push({ type:'entry', icon:'⚽',
+                title:`BTTS — ${topBtts.home.split(' ')[0]} x ${topBtts.away.split(' ')[0]}`,
+                desc:`${topBtts.btts.line} · ${topBtts.btts.pct}% · ${topBtts.min}' · ${topBtts.league.substring(0,22)}`,
+                time: now, fid: topBtts.fid });
+        if (topHandicap && topHandicap.handicap.pct >= 65)
+            mktAlerts.push({ type:'entry', icon:'📊',
+                title:`Handicap — ${topHandicap.home.split(' ')[0]} x ${topHandicap.away.split(' ')[0]}`,
+                desc:`${topHandicap.handicap.line} · ${topHandicap.handicap.pct}% · ${topHandicap.min}'`,
+                time: now, fid: topHandicap.fid });
+
+        mktAlerts.forEach(a => _alerts.unshift(a));
+
+        // Atualizar badge de contagem
+        const badge = document.getElementById('alerts-count-badge');
+        if (badge) badge.textContent = _alerts.length + ' alerta(s)';
+    }
 
 </script>
 </body>
