@@ -1,43 +1,67 @@
-# ⚽ Football Live Dashboard
+# Football Live Dashboard
 
-Dashboard completo de futebol ao vivo com IA, odds em tempo real, heatmap e alertas automáticos.
+Dashboard interativo premium para análise esportiva ao vivo. Interface minimalista com fundo preto, construída com **React + FastAPI**.
 
-## 🚀 Acesso rápido
+## Stack
 
-👉 **[Abrir dashboard](https://bru9ski.github.io/football-live-dashboard/)**
+- **Frontend**: React 18 + Vite
+- **Backend**: Python FastAPI
+- **Estilo**: CSS puro (modular por camadas)
+- **Persistência**: JSON (backend) + localStorage (frontend)
 
-## 📋 Funcionalidades
+## Como rodar localmente
 
-| Aba | Descrição |
-|-----|-----------|
-| **Banca** | Gerenciador de banca por composição progressiva |
-| **Live Match** | Placar, estatísticas, eventos e sinal de IA em tempo real |
-| **Dashboard** | 4 gráficos + filtros por liga/time + tabela de partidas |
-| **Odds ao vivo** | Cards 1X2, Over/Under e histórico de odds |
-| **API / Config** | Configuração de endpoint e RapidAPI key |
-| **Insights IA** | Ranking, heatmap de minutos e alertas automáticos |
+### Backend
 
-## ⚡ Insights IA
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
 
-- **Ranking** das melhores partidas ao vivo com score calculado por IA
-- **Alertas automáticos**: entrada forte, BTTS, 0x0 após 70', goleada, late game
-- **Heatmap** de minutos (90 células, tooltip por minuto)
-- **Gráfico de pressão** por partida
-- Scan automático a cada **30 segundos**
+### Frontend
 
-## 🔧 Como usar
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-1. Abra o dashboard
-2. Vá em **Live Match** → clique **Buscar partidas ao vivo**
-3. Selecione uma partida
-4. Explore as abas **Dashboard**, **Odds ao vivo** e **Insights IA**
+Acesse `http://localhost:5173` com o backend rodando em `http://localhost:8000`.
 
-## 📡 API
+## Estrutura
 
-Powered by [free-api-live-football-data](https://rapidapi.com) via RapidAPI.
+```
+football-live-dashboard/
+├── backend/
+│   ├── app.py          # FastAPI + rotas REST
+│   ├── models.py       # Pydantic models
+│   ├── storage.py      # JSON persistence
+│   ├── requirements.txt
+│   └── data/           # Dados em JSON (criado automaticamente)
+└── frontend/
+    ├── index.html
+    ├── package.json
+    ├── vite.config.mts
+    └── src/
+        ├── App.jsx
+        ├── api/client.js
+        ├── context/ThemeContext.jsx
+        ├── components/  # Layout, Sidebar, Topbar, Cards, Modal...
+        ├── pages/       # Landing, Dashboard, Statistics, Alerts, History, Settings
+        └── styles/      # globals, theme, layout, components
+```
 
-## 🛠 Stack
+## Funcionalidades
 
-- HTML / CSS / JavaScript puro
-- [Chart.js 4.4](https://www.chartjs.org/)
-- RapidAPI — free-api-live-football-data
+- Landing com animação e loading premium
+- Sidebar fixa no desktop, drawer no mobile
+- Dashboard com métricas, destaque ao vivo e CRUD de registros
+- Estatísticas por categoria e severidade
+- Página de alertas filtrada
+- Histórico cronológico
+- Configurações: tema claro/escuro, notificações, modo compacto, limpar dados
+- Comunicação frontend ↔ backend via Axios
+- Persistência dupla: localStorage + JSON via API
