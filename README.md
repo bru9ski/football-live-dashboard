@@ -1,6 +1,6 @@
-# ⚽ Football Live Dashboard v2
+# ⚽ Football Live Dashboard v3
 
-Dashboard de futebol ao vivo com **React + FastAPI**, WebSockets, mock engine e UI dark no estilo SofaScore.
+Dashboard de futebol ao vivo com **React + FastAPI**, WebSockets e integração real com a **FootAPI7** (RapidAPI).
 
 ## Stack
 
@@ -8,13 +8,21 @@ Dashboard de futebol ao vivo com **React + FastAPI**, WebSockets, mock engine e 
 |---|---|
 | Frontend | React 18 + Vite |
 | Backend | Python + FastAPI |
-| Comunicação | WebSocket nativo (`/ws/live`) + fallback polling |
-| Dados | Mock engine dinâmico (substituível por API real) |
-| Estilo | CSS puro (sem Tailwind/Material UI) |
+| Comunicação | WebSocket (`/ws/live`) + fallback polling |
+| Dados | FootAPI7 via RapidAPI (fallback: mock engine) |
+| Estilo | CSS puro |
 
 ## Como rodar
 
-### Backend
+### 1. Configure a chave da API
+
+```bash
+cd backend
+cp .env.example .env
+# .env já vem preenchido com sua chave
+```
+
+### 2. Backend
 
 ```bash
 cd backend
@@ -23,7 +31,7 @@ pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
 
-### Frontend
+### 3. Frontend
 
 ```bash
 cd frontend
@@ -32,52 +40,43 @@ npm run dev
 # → http://localhost:5173
 ```
 
-## Funcionalidades
+## Endpoints
 
-- 🔴 Indicador de jogo ao vivo com bolinha piscando
-- ⚽ Animação CSS de gol (flash verde no card e no placar)
-- 📊 Estatísticas em barras duplas animadas
-- 📅 Cronologia de eventos por jogo
-- 🔌 WebSocket com reconexão automática e fallback para polling
-- 📱 Responsivo (sidebar recolhida em tablet/mobile)
-- 🔄 Substituível por API real (API-Football, SportMonks etc.)
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/api/matches` | Lista todas as partidas do dia |
+| GET | `/api/matches/{id}` | Detalhes de uma partida |
+| GET | `/api/status` | Status da fonte de dados (real/mock) |
+| WS | `/ws/live` | Stream ao vivo via WebSocket |
+
+## Lógica de fonte de dados
+
+```
+Startup
+  └→ tenta FootAPI7 (/api/matches/live + /api/matches/{data})
+       ├→ [sucesso] usa dados reais + atualiza a cada 15s
+       └→ [falha]   ativa mock engine dinâmico (simula gols, stats)
+```
+
+O campo `source` na resposta de `/api/matches` indica `"real"` ou `"mock"`.
 
 ## Estrutura
 
 ```
 football-live-dashboard/
 ├── backend/
-│   ├── main.py           # FastAPI + Mock Engine + WebSocket
-│   └── requirements.txt
+│   ├── main.py            # FastAPI + FootAPI7 + Mock fallback
+│   ├── requirements.txt
+│   ├── .env.example
+│   └── .env               # Não commitado (está no .gitignore)
 └── frontend/
-    ├── index.html
-    ├── package.json
-    ├── vite.config.mts
-    └── src/
-        ├── main.jsx
-        ├── App.jsx           # Estado global + WebSocket
-        ├── styles.css        # Dark sports UI
-        └── components/
-            ├── Sidebar.jsx
-            ├── Dashboard.jsx
-            ├── MatchCard.jsx
-            └── MatchDetails.jsx
-```
-
-## Substituindo pelo API-Football
-
-No `main.py`, na função `get_matches()`, substitua `_matches` pela chamada:
-
-```python
-# Exemplo com httpx (pip install httpx)
-import httpx
-
-async def fetch_real_matches():
-    async with httpx.AsyncClient() as client:
-        r = await client.get(
-            "https://v3.football.api-sports.io/fixtures",
-            headers={"x-apisports-key": "SEU_TOKEN"},
-            params={"date": datetime.today().strftime("%Y-%m-%d"), "live": "all"}
-        )
-    return r.json()["response"]
+    ├── src/
+    │   ├── App.jsx
+    │   ├── styles.css
+    │   └── components/
+    │       ├── Sidebar.jsx
+    │       ├── Dashboard.jsx
+    │       ├── MatchCard.jsx
+    │       └── MatchDetails.jsx
+    └── ...
 ```

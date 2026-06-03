@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Env (NUNCA commitar a chave real)
+backend/.env
+.env
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
