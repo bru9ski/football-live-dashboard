@@ -1,61 +1,111 @@
 /* ============================================================
-   HandcapPRO — Logo lockup
+   HandcapPRO — Logo lockup + efeito glitch
    ============================================================ */
 
 .sidebar-logo {
   display: flex;
   align-items: center;
-  padding: 20px 16px 14px;
-  border-bottom: 1px solid var(--border);
+  padding: 22px 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 
 .sidebar-logo-lockup {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  position: relative;
 }
 
+/* Texto principal do logo */
 .sidebar-logo-text {
   display: inline-flex;
   align-items: baseline;
-  gap: 0;
   font-family: var(--font-logo);
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 700;
-  line-height: 1;
   letter-spacing: 0.01em;
+  line-height: 1;
   white-space: nowrap;
   user-select: none;
+  position: relative;
+  cursor: default;
 }
 
-/* 'Hand' — branco puro */
-.logo-hand {
-  color: #f0f2f5;
+/* Glitch — pseudo-elementos clonando o texto */
+.sidebar-logo-text::before,
+.sidebar-logo-text::after {
+  content: 'HandcapPRO';
+  position: absolute;
+  inset: 0;
+  font-family: var(--font-logo);
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  /* esconde por padrão, animação ativa nos keyframes */
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* 'cap' + bolt — inline-flex para alinhar o SVG */
+.sidebar-logo-text::before {
+  color: #18c37e;          /* canal verde */
+  clip-path: polygon(0 20%, 100% 20%, 100% 38%, 0 38%);
+  animation: glitch-top 5s infinite;
+}
+
+.sidebar-logo-text::after {
+  color: #7ca8ff;           /* canal azul */
+  clip-path: polygon(0 60%, 100% 60%, 100% 78%, 0 78%);
+  animation: glitch-bot 5s infinite;
+}
+
+@keyframes glitch-top {
+  0%, 88%, 100% { opacity: 0; transform: translate(0); }
+  90%            { opacity: 0.85; transform: translate(-3px, -1px); }
+  92%            { opacity: 0.7;  transform: translate(3px,  1px); }
+  94%            { opacity: 0.9;  transform: translate(-2px, 0); }
+  96%            { opacity: 0; }
+}
+
+@keyframes glitch-bot {
+  0%, 88%, 100% { opacity: 0; transform: translate(0); }
+  91%            { opacity: 0.75; transform: translate(4px,  1px); }
+  93%            { opacity: 0.6;  transform: translate(-3px, -1px); }
+  95%            { opacity: 0.8;  transform: translate(2px, 0); }
+  97%            { opacity: 0; }
+}
+
+/* 'Hand' — branco */
+.logo-hand { color: #f2f4f7; }
+
+/* 'cap' — branco + ancora o bolt */
 .logo-cap {
-  color: #f0f2f5;
+  color: #f2f4f7;
   position: relative;
   display: inline-flex;
-  align-items: flex-start; /* ancora o bolt no topo */
+  align-items: flex-start;
 }
 
-/* 'PRO' — verde em destaque */
+/* 'PRO' — verde */
 .logo-pro {
-  color: #00c878;
-  letter-spacing: 0.06em;
-  font-size: 0.82em;
-  align-self: flex-end;   /* senta na baseline junto com o restante */
-  margin-left: 1px;
+  color: #18c37e;
+  font-size: 0.8em;
+  letter-spacing: 0.07em;
+  align-self: flex-end;
+  margin-left: 2px;
 }
 
-/* SVG do raio + seta — superscript após o 'd' */
+/* SVG do raio + seta — superscript após o 'd' de 'cap' */
 .logo-bolt {
-  width: 10px;
-  height: 14px;
+  width: 9px;
+  height: 13px;
   margin-left: 1px;
-  /* sobe o bolt para ficar no topo da letra */
-  margin-top: -10px;
+  margin-top: -9px;          /* sobe para o topo da letra */
   flex-shrink: 0;
-  filter: drop-shadow(0 0 4px rgba(0, 200, 120, 0.7));
+  filter: drop-shadow(0 0 5px rgba(24,195,126,0.75));
+  animation: bolt-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes bolt-pulse {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(24,195,126,0.75)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(24,195,126,1)) drop-shadow(0 0 18px rgba(24,195,126,0.5)); }
 }
