@@ -1,106 +1,99 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 
-const WS_URL = 'ws://localhost:8000/ws/live';
-const REST_URL = 'http://localhost:8000/api/matches';
+function PremiumLoader({ onReady }) {
+  const [progress, setProgress] = useState(0);
+  const [showEnter, setShowEnter] = useState(false);
 
-export default function App() {
-  const [matches, setMatches] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [connStatus, setConnStatus] = useState('connecting'); // connecting | live | polling
-  const [scoredGoal, setScoredGoal] = useState(null); // match id que acabou de ter gol
-  const prevMatchesRef = useRef([]);
-  const wsRef = useRef(null);
+  useEffect(() => {
+    const startedAt = Date.now();
 
-  // Detecta gols novos comparando snapshots
-  const detectGoals = useCallback((prev, next) => {
-    next.forEach((nm) => {
-      const om = prev.find((m) => m.id === nm.id);
-      if (!om) return;
-      const homeGoal = nm.score.home > om.score.home;
-      const awayGoal = nm.score.away > om.score.away;
-      if (homeGoal || awayGoal) {
-        setScoredGoal(nm.id);
-        setTimeout(() => setScoredGoal(null), 2500);
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startedAt;
+      const next = Math.min(100, Math.floor((elapsed / 7000) * 100));
+      setProgress(next);
+      if (elapsed >= 7000) {
+        clearInterval(interval);
+        setShowEnter(true);
       }
-    });
+    }, 80);
+
+    return () => clearInterval(interval);
   }, []);
 
-  const applyUpdate = useCallback(
-    (updated) => {
-      setMatches((prev) => {
-        detectGoals(prev, updated);
-        prevMatchesRef.current = updated;
-        return updated;
-      });
-    },
-    [detectGoals]
+  return (
+    <div className="intro-screen">
+      <div className="intro-noise" />
+      <div className="intro-glow intro-glow-left" />
+      <div className="intro-glow intro-glow-right" />
+
+      <div className="intro-card">
+        <div className="intro-brand-row">
+          <div className="intro-brand-mark">
+            <span className="intro-brand-dot" />
+          </div>
+          <div className="intro-brand-text-wrap">
+            <div className="intro-kicker">premium live analytics</div>
+            <h1 className="intro-brand-title">
+              <span className="intro-brand-main">Handcap</span>
+              <span className="intro-brand-pro">PRO</span>
+            </h1>
+          </div>
+        </div>
+
+        <p className="intro-copy">
+          Inteligência visual para acompanhar partidas, momentum e dados ao vivo
+          em uma experiência refinada, minimalista e responsiva.
+        </p>
+
+        <div className="intro-progress-block">
+          <div className="intro-progress-meta">
+            <span>Inicializando ambiente</span>
+            <span>{progress}%</span>
+          </div>
+          <div className="intro-progress-track">
+            <div
+              className="intro-progress-bar"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+
+        <div className="intro-actions">
+          {showEnter ? (
+            <button className="intro-enter-btn" onClick={onReady}>
+              Entrar
+            </button>
+          ) : (
+            <div className="intro-waiting">aguarde 7 segundos...</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [selectedMatchId, setSelectedMatchId] = useState(null);
+  const [showLoader, setShowLoader] = useState(true);
+
+  const layoutClass = useMemo(
+    () => `app-grid${selectedMatchId ? ' has-detail' : ''}`,
+    [selectedMatchId]
   );
 
-  // Busca inicial via REST
-  useEffect(() => {
-    fetch(REST_URL)
-      .then((r) => r.json())
-      .then((d) => applyUpdate(d.matches))
-      .catch(console.error);
-  }, [applyUpdate]);
-
-  // WebSocket com fallback para polling
-  useEffect(() => {
-    let pollInterval = null;
-
-    const connectWS = () => {
-      const ws = new WebSocket(WS_URL);
-      wsRef.current = ws;
-
-      ws.onopen = () => setConnStatus('live');
-
-      ws.onmessage = (e) => {
-        const msg = JSON.parse(e.data);
-        if (msg.type === 'matches_update') applyUpdate(msg.data);
-      };
-
-      ws.onerror = () => {
-        setConnStatus('polling');
-        startPolling();
-      };
-
-      ws.onclose = () => {
-        if (connStatus !== 'polling') {
-          setTimeout(connectWS, 5000); // reconecta
-        }
-      };
-    };
-
-    const startPolling = () => {
-      pollInterval = setInterval(() => {
-        fetch(REST_URL)
-          .then((r) => r.json())
-          .then((d) => applyUpdate(d.matches))
-          .catch(console.error);
-      }, 12000);
-    };
-
-    connectWS();
-
-    return () => {
-      wsRef.current?.close();
-      clearInterval(pollInterval);
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const selectedMatch = matches.find((m) => m.id === selectedId) || null;
+  if (showLoader) {
+    return <PremiumLoader onReady={() => setShowLoader(false)} />;
+  }
 
   return (
-    <div className="app-grid">
+    <div className={layoutClass}>
       <Sidebar />
       <Dashboard
-        matches={matches}
-        selectedMatch={selectedMatch}
-        onSelectMatch={setSelectedId}
-        connStatus={connStatus}
-        scoredGoal={scoredGoal}
+        selectedMatchId={selectedMatchId}
+        onSelectMatch={setSelectedMatchId}
+        onCloseDetails={() => setSelectedMatchId(null)}
       />
     </div>
   );
